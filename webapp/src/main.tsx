@@ -1,0 +1,24 @@
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import { Provider } from 'react-redux'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { configureStore } from '@reduxjs/toolkit'
+import './index.css'
+import Auth from './auth/Auth.tsx'
+import Home from './Home.tsx'
+import userReducer from './features/user/userSlice'
+
+const store = configureStore({ reducer: { user: userReducer } })
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <Provider store={store}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Auth />} />
+          <Route path="/home" element={<Home />} />
+        </Routes>
+      </Router>
+    </Provider>
+  </StrictMode>,
+)
