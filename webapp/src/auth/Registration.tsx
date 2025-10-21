@@ -1,6 +1,9 @@
 import '../assets/styles.css'
+import { useNavigate } from 'react-router-dom';
 
 function RegistrationForm() {
+    const navigate = useNavigate()
+
     const setTimestamp = () => {
         const ts = document.getElementById('ts') as HTMLInputElement;
         ts.value = String(Date.now());
@@ -67,11 +70,11 @@ function RegistrationForm() {
             return;
 
         // Login complete, redirect to home
-        window.location.href = '/home'
+        navigate('/home')
     }
 
     return (
-        <form id="form" onSubmit={(e) => { e.preventDefault(); return processForm() }}>
+        <form className="form" onSubmit={(e) => { e.preventDefault(); return processForm() }}>
             <p>Registration</p>
             <div>
                 <label>Account Name*</label>
@@ -106,8 +109,7 @@ function RegistrationForm() {
                 <input type="password" id="cpass" required={true} onChange={linkPassword} />
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '30px' }}>
-                <input type="hidden" name="timestamp" value="" id="ts" />
-                <input type="reset" value="Clear" onClick={setTimestamp} onLoad={setTimestamp} style={{ width: '30%' }} />
+                <input type="hidden" name="timestamp" value="" id="ts" onLoad={setTimestamp}/>
                 <input type="submit" style={{ width: '30%' }} />
             </div>
         </form>

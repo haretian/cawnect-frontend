@@ -1,0 +1,173 @@
+body {
+    margin: 0px;
+    display: block;
+    color: #000000;
+}
+
+#root {
+    width: 100%;
+    height: 100%;
+}
+
+.main {
+    top: 0;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100%;
+    justify-content: space-around;
+    padding-bottom: 20px;
+}
+
+.profile-main {
+    width: 50vw;
+    max-width: 600px;
+    padding: 50px;
+    border: solid 2px #000000;
+    border-radius: 20px;
+}
+
+input {
+    display: inline-block;
+    width: 200px;
+    height: 1.1em;
+    margin-left: 10px;
+    font-size: 1.1em;
+    font-family: serif;
+}
+
+.header-title {
+    margin-left: 30px;
+}
+
+.header-button {
+    margin-right: 30px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2em;
+    font-weight: bold;
+}
+
+p {
+    display: inline-block;
+    width: 160px;
+    font-size: 1.1em;
+}
+
+button {
+    background-color: #ffffff;
+    border: solid 2px #000000;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 1.1em;
+    font-family: serif;
+    color: #000000;
+}
+
+button:hover {
+    background-color: #000000;
+    color: #ffffff;
+    transition: 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.profile {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px;
+}
+
+.info {
+    display: none;
+    position: absolute;
+    width: 100%;
+    text-align: right;
+    font-size: 0.8em;
+    white-space: pre-line;
+    margin: 50px 0px 0px 0px;
+}
+
+.navbar {
+    position: sticky;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+    background-color: #ffffff;
+    z-index: 10;
+    border-bottom: solid 2px #000000;
+}
+
+.row {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: calc(50vh - 60px);
+    box-sizing: border-box;
+    padding-right: 20px;
+}
+
+.post {
+    position: relative;
+    display: block;
+    align-items: center;
+    width: 30vw;
+    border: solid 2px #000000;
+    border-radius: 20px;
+    overflow: hidden;
+    padding: 20px;
+    margin: 20px 0px 0px 20px;
+}
+
+.postempty {
+    position: relative;
+    display: block;
+    align-items: center;
+    width: 30vw;
+    overflow: hidden;
+    padding: 20px;
+    margin: 20px 0px 0px 20px;
+}
+
+.images {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 60%;
+    overflow: hidden;
+}
+
+img {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.post-text {
+    display: -webkit-box;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin: 0px;
+    padding-top: 15px;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+}
+
+.post-button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}

@@ -5,7 +5,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { configureStore } from '@reduxjs/toolkit'
 import './index.css'
 import Auth from './auth/Auth.tsx'
-import Home from './Home.tsx'
+import Home from './home/Home.tsx'
+import Profile from './profile/Profile.tsx'
 import userReducer from './features/user/userSlice'
 
 const store = configureStore({ reducer: { user: userReducer } })
@@ -17,6 +18,7 @@ createRoot(document.getElementById('root')!).render(
         <Routes>
           <Route path="/" element={<Auth />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </Router>
     </Provider>
