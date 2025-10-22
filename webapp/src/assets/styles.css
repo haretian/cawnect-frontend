@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
+
 body {
     margin: 0px;
     display: block;
     color: #000000;
+    font-family: 'Lexend Deca';
 }
 
 #root {
@@ -30,11 +33,11 @@ body {
 
 input {
     display: inline-block;
-    width: 200px;
-    height: 1.1em;
-    margin-left: 10px;
-    font-size: 1.1em;
-    font-family: serif;
+    width: 100%;
+    height: 2em;
+    font-size: 1em;
+    font-family: 'Lexend Deca';
+    box-sizing: border-box; 
 }
 
 .header-title {

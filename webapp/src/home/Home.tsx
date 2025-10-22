@@ -31,7 +31,7 @@ function Home() {
             </div>
             {rows.map((row, i) => (
                 <div key={i} className='row'>
-                    {row.map((postobj, j) => <Post key={j} title={postobj.title} body={postobj.body} />)}
+                    {row.map((postobj, j) => <Post key={String(i) + String(j)} title={postobj.title} body={postobj.body} />)}
                     {Array(4-row.length).fill(1).map((_, i) => <div className='postempty'></div>)}
                 </div>
             ))}
