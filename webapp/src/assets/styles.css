@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
 
 :root {
-    --primary-dark:#2B2634;
+    --primary-dark: #2B2634;
     --primary-light: #FFF6EB;
     --secondary-dark: #1F1B27;
 }
@@ -18,17 +18,6 @@ body {
 #root {
     width: 100%;
     height: 100%;
-}
-
-.main {
-    top: 0;
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    height: 100%;
-    justify-content: space-around;
-    padding-bottom: 20px;
 }
 
 .profile-main {
@@ -57,10 +46,6 @@ input {
     margin-left: 30px;
 }
 
-.header-button {
-    margin-right: 30px;
-}
-
 h1 {
     text-align: center;
     font-size: 2em;
@@ -76,7 +61,7 @@ p {
 button {
     background-color: var(--primary-dark);
     border: solid 2px var(--primary-light);
-    border-radius: 10px;
+    border-radius: 5px;
     padding: 10px;
     font-size: 1.1em;
     font-family: serif;
@@ -88,6 +73,17 @@ button:hover {
     background-color: var(--primary-light);
     color: var(--primary-dark);
     transition: 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.button {
+    padding: 0;
+}
+
+.button:hover {
+    background-color: var(--primary-dark);
+    color: var(--primary-light);
+    transition: 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    border: 2px var(--primary-light) solid;
 }
 
 .profile {
@@ -108,19 +104,6 @@ button:hover {
     margin: 50px 0px 0px 0px;
 }
 
-.navbar {
-    position: sticky;
-    top: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    height: 100px;
-    background-color: var(--primary-dark);
-    z-index: 10;
-    border-bottom: solid 2px var(--primary-light);
-}
-
 .row {
     position: relative;
     display: flex;
@@ -136,7 +119,7 @@ button:hover {
     align-items: center;
     width: 30vw;
     border: solid 2px var(--primary-light);
-    border-radius: 20px;
+    border-radius: 10px;
     overflow: hidden;
     padding: 20px;
     margin: 20px 0px 0px 20px;
@@ -190,11 +173,17 @@ img {
     right: 20px;
 }
 
-.logo{
+.logo {
     display: inline-block;
     position: relative;
     height: 50px;
     width: 50px;
     border-radius: 0px;
     padding-right: 5px;
+}
+
+.logo-text {
+    display: inline;
+    font-size: 3em;
+    color: var(--primary-light);
 }

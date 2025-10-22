@@ -26,12 +26,6 @@
     top: 4vh;
 }
 
-.header-login h1 {
-    display: inline;
-    font-size: 3em;
-    color: var(--primary-light);
-}
-
 .header-login>h1 {
     text-align: right;
     width: 271.25px;
@@ -49,7 +43,7 @@ form {
     flex-direction: column;
     align-items: center;
     border: 2px var(--primary-light) solid;
-    border-radius: 20px;
+    border-radius: 10px;
     padding: 50px;
     height: 100%;
     width: 20vw;
