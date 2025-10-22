@@ -12,6 +12,7 @@ body {
     display: block;
     color: var(--primary-light);
     font-family: 'Lexend Deca';
+    background-color: var(--secondary-dark);
 }
 
 #root {
@@ -139,6 +140,7 @@ button:hover {
     overflow: hidden;
     padding: 20px;
     margin: 20px 0px 0px 20px;
+    background-color: var(--primary-dark);
 }
 
 .postempty {

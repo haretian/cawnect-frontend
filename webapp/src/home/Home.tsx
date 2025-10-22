@@ -26,8 +26,8 @@ function Home() {
     return (
         <div className='main'>
             <div className="navbar">
-                <h1 className="header-title">Welcome</h1>
-                <button className="header-button" onClick={() => { navigate('/profile') }}>Profile</button>
+                <h1 className="header-title">welcome</h1>
+                <button className="header-button" onClick={() => { navigate('/profile') }}>profile</button>
             </div>
             {rows.map((row, i) => (
                 <div key={i} className='row'>
