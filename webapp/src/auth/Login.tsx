@@ -43,18 +43,18 @@ function Login() {
 
     return (
         <form className="form" onSubmit={(e) => { e.preventDefault(); return processLogin() }}>
-            <h2>Login</h2>
+            <h2>login</h2>
             <div className='input-container'>
                 <div className='input-field'>
-                    <label>Account Name</label>
+                    <label>account name</label>
                     <input type="text" name="accName" id="login-acc" required={true} onChange={(event) => event.target.setCustomValidity('')} />
                 </div>
                 <div className='input-field'>
-                    <label>Password</label>
+                    <label>password</label>
                     <input type="password" name="pass" id="login-pass" required={true} onChange={(event) => event.target.setCustomValidity('')} />
                 </div>
             </div>
-            <input type="submit" value="Login" style={{ width: '30%' }} />
+            <input className="button" type="submit" value="login" style={{ width: '30%' }} />
         </form>
     )
 }
