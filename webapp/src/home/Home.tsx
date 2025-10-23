@@ -6,7 +6,6 @@ import Posts from './posts/Posts'
 import Sidebar from './sidebar/Sidebar'
 import Navbar from '../navbar/Navbar'
 
-import '../assets/styles.css'
 import './Home.css'
 import Search from '../assets/icons/search.svg'
 

@@ -1,4 +1,3 @@
-import '../assets/styles.css'
 import { useNavigate } from 'react-router-dom';
 
 function RegistrationForm() {

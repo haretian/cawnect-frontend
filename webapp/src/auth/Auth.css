@@ -51,10 +51,6 @@ form {
     background-color: var(--primary-dark);
 }
 
-.input-field {
-    padding: 10px;
-}
-
 form h2 {
     position: relative;
     text-align: center;

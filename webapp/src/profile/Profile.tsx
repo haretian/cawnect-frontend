@@ -4,7 +4,6 @@ import { setUserProfile } from '../features/user/userSlice';
 import type { UserState } from '../main'
 import Navbar from '../navbar/Navbar';
 
-import '../assets/styles.css'
 import './profile.css'
 import UserPhoto from '../assets/img/user_placeholder.jpg'
 import AddPhoto from '../assets/icons/addphoto.svg'
@@ -43,7 +42,7 @@ function Profile() {
         if (input.value) {
             payload.displayName = input.value
             input.value = '';
-            info[0].innerHTML = 'updated successfully.'
+            info[0].innerHTML = 'updated successfully'
             let infoDiv = info[0] as HTMLDivElement
             infoDiv.style.display = 'block';
         }
@@ -53,7 +52,7 @@ function Profile() {
         if (input.value) {
             payload.email = input.value
             input.value = '';
-            info[1].innerHTML = 'updated successfully.'
+            info[1].innerHTML = 'updated successfully'
             let infoDiv = info[1] as HTMLDivElement
             infoDiv.style.display = 'block';
         }
@@ -63,7 +62,7 @@ function Profile() {
         if (input.value) {
             payload.phone = input.value
             input.value = '';
-            info[2].innerHTML = 'updated successfully.'
+            info[2].innerHTML = 'updated successfully'
             let infoDiv = info[2] as HTMLDivElement
             infoDiv.style.display = 'block';
         }
@@ -73,7 +72,7 @@ function Profile() {
         if (input.value) {
             payload.zip = input.value
             input.value = '';
-            info[3].innerHTML = 'updated successfully.'
+            info[3].innerHTML = 'updated successfully'
             let infoDiv = info[3] as HTMLDivElement
             infoDiv.style.display = 'block';
         }
@@ -84,7 +83,7 @@ function Profile() {
             payload.password = input.value;
             input.value = '';
             (inputFields[5] as HTMLInputElement).value = '';
-            info[4].innerHTML = 'updated successfully.';
+            info[4].innerHTML = 'updated successfully';
             (info[4] as HTMLDivElement).style.display = 'block';
         }
 
@@ -102,12 +101,12 @@ function Profile() {
         // Email
         if ((inputFields[1] as HTMLInputElement).value) {
             if ((inputFields[1] as HTMLInputElement).value.match(/^@/)) {
-                info[1].innerHTML = 'missing user (e.g. user@email.com).';
+                info[1].innerHTML = 'missing user (e.g. user@email.com)';
                 (info[1] as HTMLDivElement).style.display = 'block';
                 valid = false;
             }
             if (!(inputFields[1] as HTMLInputElement).value.match(/@.+\..+/)) {
-                info[1].innerHTML = 'missing domain name (e.g. @email.com).';
+                info[1].innerHTML = 'missing domain name (e.g. @email.com)';
                 (info[1] as HTMLDivElement).style.display = 'block';
                 valid = false;
             }
@@ -116,7 +115,7 @@ function Profile() {
         // Phone
         if ((inputFields[2] as HTMLInputElement).value) {
             if (!(inputFields[2] as HTMLInputElement).value.match(/[0-9]{3}\-[0-9]{3}\-[0-9]{4}/)) {
-                info[2].innerHTML = 'invalid phone (e.g. 123-123-1234).';
+                info[2].innerHTML = 'invalid phone (e.g. 123-123-1234)';
                 (info[2] as HTMLDivElement).style.display = 'block';
                 valid = false;
             }
@@ -125,7 +124,7 @@ function Profile() {
         // Zipcode
         if ((inputFields[3] as HTMLInputElement).value) {
             if (!(inputFields[3] as HTMLInputElement).value.match(/[0-9]{5}/)) {
-                info[3].innerHTML = 'invalid zip (e.g. 12345).';
+                info[3].innerHTML = 'invalid zip (e.g. 12345)';
                 (info[3] as HTMLDivElement).style.display = 'block';
                 valid = false;
             }
@@ -134,12 +133,12 @@ function Profile() {
         // Password Fields
         if ((inputFields[4] as HTMLInputElement).value) {
             if (!(inputFields[5] as HTMLInputElement).value) {
-                info[5].innerHTML = 'please confirm password.';
+                info[5].innerHTML = 'please confirm password';
                 (info[5] as HTMLDivElement).style.display = 'block';
                 valid = false;
             } else {
                 if ((inputFields[4] as HTMLInputElement).value != (inputFields[5] as HTMLInputElement).value) {
-                    info[5].innerHTML = 'passwords do not match.';
+                    info[5].innerHTML = 'passwords do not match';
                     (info[5] as HTMLDivElement).style.display = 'block';
                     valid = false;
                 }
@@ -147,7 +146,7 @@ function Profile() {
         }
         if ((inputFields[5] as HTMLInputElement).value) {
             if (!(inputFields[4] as HTMLInputElement).value) {
-                info[4].innerHTML = 'please input password.';
+                info[4].innerHTML = 'please input password';
                 (info[4] as HTMLDivElement).style.display = 'block';
                 valid = false;
             }

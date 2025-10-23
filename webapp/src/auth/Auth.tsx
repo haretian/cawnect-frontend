@@ -1,8 +1,8 @@
-import RegistrationForm from './Registration'
-import '../assets/styles.css'
-import Logo from '../assets/logo_light.svg'
+import RegistrationForm from './registration/Registration'
+import Login from './login/Login'
+
 import './auth.css'
-import Login from './Login'
+import Logo from '../assets/logo_light.svg'
 
 function Auth() {
     return (
