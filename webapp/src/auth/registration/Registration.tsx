@@ -75,47 +75,41 @@ function RegistrationForm() {
     return (
         <form className="form" onSubmit={(e) => { e.preventDefault(); return processForm() }}>
             <h2>registration</h2>
-            <div className="input-container">
-                <div className="input-columns">
-                    <div>
-                        <div className='input-field'>
-                            <label>account name*</label>
-                            <input type="text" name="accName" id="acc" required={true} onChange={(event) => event.target.setCustomValidity('')} />
-                        </div>
-                        <div className='input-field'>
-                            <label>display name</label>
-                            <input type="text" name="displayName" />
-                        </div>
-                        <div className='input-field'>
-                            <label>email address*</label>
-                            <input type="email" name="email" required={true} />
-                        </div>
-                        <div className='input-field'>
-                            <label>phone*</label>
-                            <input type="tel" name="phone" id="phone" required={true} placeholder="000-000-0000" maxLength={12} pattern="\d\d\d-\d\d\d-\d\d\d\d" onInput={formatPhone} />
-                        </div>
-                    </div>
-                    <div>
-                        <div className='input-field'>
-                            <label>date of birth*</label>
-                            <input type="date" name="dob" id="dob" required={true} onChange={(event) => event.target.setCustomValidity('')} />
-                        </div>
-                        <div className='input-field'>
-                            <label>zip (US)*</label>
-                            <input type="text" name="zip" id="zip" required={true} pattern="\d\d\d\d\d" maxLength={5} />
-                        </div>
-                        <div className='input-field'>
-                            <label>password*</label>
-                            <input type="password" name="pass" id="pass" required={true} onChange={linkPassword} />
-                        </div>
-                        <div className='input-field'>
-                            <label>confirm password*</label>
-                            <input type="password" id="cpass" required={true} onChange={linkPassword} />
-                        </div>
-                    </div>
+            <div className="input-columns">
+                <div className='input-field'>
+                    <label>account name*</label>
+                    <input type="text" name="accName" id="acc" required={true} onChange={(event) => event.target.setCustomValidity('')} />
                 </div>
-                <input type="hidden" name="timestamp" value="" id="ts" onLoad={setTimestamp} />
+                <div className='input-field'>
+                    <label>display name</label>
+                    <input type="text" name="displayName" />
+                </div>
+                <div className='input-field'>
+                    <label>email address*</label>
+                    <input type="email" name="email" required={true} />
+                </div>
+                <div className='input-field'>
+                    <label>date of birth*</label>
+                    <input type="date" name="dob" id="dob" required={true} onChange={(event) => event.target.setCustomValidity('')} />
+                </div>
+                <div className='input-field'>
+                    <label>phone*</label>
+                    <input type="tel" name="phone" id="phone" required={true} placeholder="000-000-0000" maxLength={12} pattern="\d\d\d-\d\d\d-\d\d\d\d" onInput={formatPhone} />
+                </div>
+                <div className='input-field'>
+                    <label>zip (US)*</label>
+                    <input type="text" name="zip" id="zip" required={true} pattern="\d\d\d\d\d" maxLength={5} />
+                </div>
+                <div className='input-field'>
+                    <label>password*</label>
+                    <input type="password" name="pass" id="pass" required={true} onChange={linkPassword} />
+                </div>
+                <div className='input-field'>
+                    <label>confirm password*</label>
+                    <input type="password" id="cpass" required={true} onChange={linkPassword} />
+                </div>
             </div>
+            <input type="hidden" name="timestamp" value="" id="ts" onLoad={setTimestamp} />
             <input className="button" value="submit" type="submit" style={{ width: '30%' }} />
         </form >
     )

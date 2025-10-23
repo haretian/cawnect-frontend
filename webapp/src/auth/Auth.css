@@ -76,8 +76,15 @@ form>input {
 }
 
 .input-columns {
-    display: flex;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.input-field {
+    display: inline-block;
+    padding: 10px;
+    flex: 50%;
 }
 
 form label {

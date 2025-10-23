@@ -80,6 +80,7 @@
     font-size: 1em;
     white-space: pre-line;
     margin: 0px;
+    margin-top: -10px;
 }
 
 .input {
