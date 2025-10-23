@@ -1,0 +1,155 @@
+.sidebar-container {
+    display: flex;
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: calc(100% - 80px);
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    border: 2px var(--primary-light) solid;
+    border-radius: 10px;
+    background-color: var(--primary-dark);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.sidebar-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.profile-img {
+    width: 100%;
+    padding: 10px;
+    border-radius: 50%;
+    box-sizing: border-box;
+}
+
+.profile-username {
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.profile-status-text {
+    text-wrap: wrap;
+    text-align: center;
+    overflow-wrap: anywhere;
+    margin: 5px;
+    margin-bottom: 4px;
+}
+
+.sidebar-profile>button {
+    margin-top: 5px;
+    width: 150px;
+}
+
+.splitter {
+    width: calc(100% - 30px);
+    height: 3px;
+    margin: 20px;
+    background-color: var(--primary-light);
+    border-radius: 2px;
+}
+
+.sidebar-follows {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    align-items: flex-start;
+}
+
+.sidebar-follows>button {
+    margin-top: 5px;
+    width: 150px;
+}
+
+.follows-user {
+    display: flex;
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+    transition: 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    border-radius: 5px;
+}
+
+.follows-user:hover {
+    background-color: var(--primary-light-transparent);
+}
+
+.follows-user>div {
+    display: inline-block;
+    width: 100%;
+}
+
+.follows-user-img {
+    cursor: pointer;
+    display: inline-block;
+    border-radius: 50%;
+    width: 50px;
+    margin-right: 8px;
+    transition: 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.follows-user-img:hover {
+    filter: brightness(50%)
+}
+
+.follows-user-name {
+    display: block;
+    max-width: 128px;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-weight: bold;
+}
+
+.follows-input-container {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+#morefollowers {
+    position: absolute;
+    top: -20px;
+    width: 180px;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.follows-input-container>button {
+    margin: 10px;
+    width: 150px;
+}
+
+.edit-status-popup {
+    margin: 10px;
+    transition: 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.sidebar-hidden {
+    visibility: hidden;
+    height: 0px;
+    margin: 0px;
+    border: none;
+}

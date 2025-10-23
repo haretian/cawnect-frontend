@@ -1,7 +1,8 @@
 import { useEffect, useState, type SyntheticEvent } from 'react'
 import { useSelector } from 'react-redux'
-import type { UserState } from '../main'
-import userImg from '../assets/user_placeholder.jpg'
+import type { UserState } from '../../main'
+import userImg from '../../assets/img/user_placeholder.jpg'
+import './Sidebar.css'
 
 type FriendInfo = {
     name: string,

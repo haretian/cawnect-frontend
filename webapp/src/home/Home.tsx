@@ -1,18 +1,19 @@
-import { useEffect, useState, type SyntheticEvent } from 'react'
+import { useEffect, useState, type MouseEventHandler, type SyntheticEvent } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import type { UserState } from '../main'
-import Post from './Post'
-import Sidebar from './Sidebar'
+import Posts from './posts/Posts'
+import Sidebar from './sidebar/Sidebar'
+import Navbar from '../navbar/Navbar'
+
 import '../assets/styles.css'
 import './Home.css'
-import Logo from '../assets/logo_light.svg'
 import Search from '../assets/icons/search.svg'
 
-import temp1 from '../assets/crow-placeholder-1.jpg'
-import temp2 from '../assets/crow-placeholder-2.jpg'
-import temp3 from '../assets/crow-placeholder-3.jpg'
-import temp4 from '../assets/crow-placeholder-4.jpg'
+import temp1 from '../assets/img/crow-placeholder-1.jpg'
+import temp2 from '../assets/img/crow-placeholder-2.jpg'
+import temp3 from '../assets/img/crow-placeholder-3.jpg'
+import temp4 from '../assets/img/crow-placeholder-4.jpg'
 const images = [
     temp1,
     temp2,
@@ -26,6 +27,37 @@ type PostInfo = {
     image: (string | null)
 }
 
+type PopupFuncs = {
+    cancelPost: MouseEventHandler
+    addPost: MouseEventHandler
+}
+
+function PostPopup(props: PopupFuncs) {
+    const changeLabel = (e: SyntheticEvent) => {
+        let label = document.getElementById("imagelabel")
+        if (label != null)
+            label.innerHTML = (e.target as HTMLInputElement).value
+    }
+
+    return <div id='postpopup' className='new-post-popup-background hidden' onClick={props.cancelPost}>
+        <div className='new-post-popup-container'>
+            <div className='new-post-content'>
+                <div className='new-post-empty-image'>
+                    <label htmlFor='image' id='imagelabel' className="button filebutton">
+                        upload image
+                    </label>
+                    <input id='image' type='file' accept="image/png, image/jpeg" onChange={changeLabel} />
+                </div>
+                <textarea id='body' placeholder='type here...' maxLength={500}></textarea>
+            </div>
+            <div className='new-post-buttons'>
+                <button onClick={props.cancelPost}>cancel</button>
+                <button onClick={props.addPost}>post!</button>
+            </div>
+        </div>
+    </div>
+}
+
 function Home() {
     const navigate = useNavigate()
     const userid = useSelector((state: UserState) => state.user.userid)
@@ -36,12 +68,6 @@ function Home() {
         setDisplayPosts(posts.filter((elem: PostInfo) => {
             return elem.body.includes((e.target as HTMLInputElement).value)
         }))
-    }
-
-    const changeLabel = (e: SyntheticEvent) => {
-        let label = document.getElementById("imagelabel")
-        if (label != null)
-            label.innerHTML = (e.target as HTMLInputElement).value
     }
 
     // NO ID YET
@@ -73,26 +99,6 @@ function Home() {
         popup?.classList.add('hidden')
     }
 
-    const PostPopup = () => {
-        return <div id='postpopup' className='new-post-popup-background hidden' onClick={cancelPost}>
-            <div className='new-post-popup-container'>
-                <div className='new-post-content'>
-                    <div className='new-post-empty-image'>
-                        <label htmlFor='image' id='imagelabel' className="button filebutton">
-                            upload image
-                        </label>
-                        <input id='image' type='file' accept="image/png, image/jpeg" onChange={changeLabel} />
-                    </div>
-                    <textarea id='body' placeholder='type here...' maxLength={500}></textarea>
-                </div>
-                <div className='new-post-buttons'>
-                    <button onClick={cancelPost}>cancel</button>
-                    <button onClick={addPost}>post!</button>
-                </div>
-            </div>
-        </div>
-    }
-
     useEffect(() => {
         async function getUserPosts() {
             let req = await fetch('https://jsonplaceholder.typicode.com/posts?userId=' + encodeURIComponent(userid))
@@ -107,19 +113,13 @@ function Home() {
 
     return (
         <>
-            <div className="navbar">
-                <div>
-                    <img className='navbar-logo' src={Logo} />
-                    <h1 className='navbar-logo-text'>caw!nect</h1>
-                </div>
-                <div>
-                    <button className="header-button" onClick={() => { navigate('/') }}>logout</button>
-                    <button className="header-button" onClick={() => { navigate('/profile') }}>profile</button>
-                </div>
-            </div>
+            <Navbar>
+                <button className="header-button" onClick={() => { navigate('/') }}>logout</button>
+                <button className="header-button" onClick={() => { navigate('/profile') }}>profile</button>
+            </Navbar>
             <Sidebar />
             <div className='home-main'>
-                <PostPopup />
+                <PostPopup cancelPost={cancelPost} addPost={addPost}/>
                 <div className='post-header'>
                     <div style={{ display: 'inline-flex' }}>
                         <img className="icon" src={Search}></img>
@@ -127,9 +127,7 @@ function Home() {
                     </div>
                     <button className='small-button' onClick={() => document.getElementById('postpopup')?.classList.remove('hidden')}>+ new post</button>
                 </div>
-                <div className='posts-container'>
-                    {displayPosts.map((postobj: PostInfo, i) => { return <Post key={i} body={postobj.body} image={postobj.image} /> })}
-                </div>
+                <Posts posts={displayPosts} />
             </div>
         </>
     )

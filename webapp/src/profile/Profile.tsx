@@ -1,12 +1,13 @@
 import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { setUserProfile } from '../features/user/userSlice';
+import type { UserState } from '../main'
+import Navbar from '../navbar/Navbar';
+
 import '../assets/styles.css'
 import './profile.css'
-import Logo from '../assets/logo_light.svg'
-import UserPhoto from '../assets/user_placeholder.jpg'
+import UserPhoto from '../assets/img/user_placeholder.jpg'
 import AddPhoto from '../assets/icons/addphoto.svg'
-import { setUserProfile } from '../features/user/userSlice';
-import { useDispatch, useSelector } from 'react-redux'
-import type { UserState } from '../main'
 
 declare global {
     interface HTMLInputElement {
@@ -178,22 +179,16 @@ function Profile() {
 
     return (
         <>
-            <div className="navbar">
-                <div>
-                    <img className='navbar-logo' src={Logo} />
-                    <h1 className='navbar-logo-text'>caw!nect</h1>
-                </div>
-                <div>
-                    <button className="header-button" onClick={() => { navigate('/home') }}>home</button>
-                </div>
-            </div>
+            <Navbar>
+                <button className="header-button" onClick={() => { navigate('/home') }}>home</button>
+            </Navbar>
             <div className="profile-main">
                 <div className="profile-info">
                     <img className='profile-photo' src={UserPhoto}></img>
                     <label className='profile-upload' htmlFor='photo'>
                         <img src={AddPhoto} />
                     </label>
-                    <input id='photo' type='file' className='hidden'/>
+                    <input id='photo' type='file' className='hidden' />
                     <h1 className='profile-title'>my profile</h1>
                     <div className='profile-current'>{dispName}</div>
                     <div className='profile-current'>{email}</div>

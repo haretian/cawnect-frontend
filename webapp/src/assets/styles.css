@@ -131,17 +131,3 @@ textarea {
     padding: 5px;
     font-size: 1em;
 }
-
-.navbar {
-    position: sticky;
-    top: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 80px;
-    background-color: var(--primary-dark);
-    z-index: 10;
-    border-bottom: solid 2px var(--primary-light);
-    padding-left: 30px;
-    padding-right: 30px;
-}

@@ -1,0 +1,28 @@
+.navbar {
+    position: sticky;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    background-color: var(--primary-dark);
+    z-index: 10;
+    border-bottom: solid 2px var(--primary-light);
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.navbar-logo {
+    display: inline-block;
+    position: relative;
+    height: 33px;
+    width: 33px;
+    border-radius: 0px;
+    padding-right: 5px;
+}
+
+.navbar-logo-text {
+    display: inline;
+    font-size: 2em;
+    color: var(--primary-light);
+}
