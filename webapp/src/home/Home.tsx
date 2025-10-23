@@ -7,7 +7,7 @@ import Sidebar from './Sidebar'
 import '../assets/styles.css'
 import './Home.css'
 import Logo from '../assets/logo_light.svg'
-import Search from '../assets/search.svg'
+import Search from '../assets/icons/search.svg'
 
 import temp1 from '../assets/crow-placeholder-1.jpg'
 import temp2 from '../assets/crow-placeholder-2.jpg'

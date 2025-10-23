@@ -1,6 +1,6 @@
 import './Post.css'
-import Comment from '../assets/comment.svg'
-import Edit from '../assets/edit.svg'
+import Comment from '../assets/icons/comment.svg'
+import Edit from '../assets/icons/edit.svg'
 
 type PostParams = {
     body: any,
@@ -21,8 +21,8 @@ function Post(post: PostParams) {
    {/*          <p className='post-title'>{title}</p> */}
             <p className='post-text'>{post.body}</p>
             <div className="post-buttons">
-                <img className='icon' src={Edit} onClick={() => {}}/>
-                <img className='icon' src={Comment} onClick={() => {}}/>
+                <img className='icon post-button' src={Edit} onClick={() => {}}/>
+                <img className='icon post-button' src={Comment} onClick={() => {}}/>
             </div>
         </div>
     )

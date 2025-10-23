@@ -3,7 +3,7 @@ import '../assets/styles.css'
 import './profile.css'
 import Logo from '../assets/logo_light.svg'
 import UserPhoto from '../assets/user_placeholder.jpg'
-import AddPhoto from '../assets/addphoto.svg'
+import AddPhoto from '../assets/icons/addphoto.svg'
 import { setUserProfile } from '../features/user/userSlice';
 import { useDispatch, useSelector } from 'react-redux'
 import type { UserState } from '../main'
