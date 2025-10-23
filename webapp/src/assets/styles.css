@@ -1,11 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
 
+.fake-italic {
+    transform: skewX(-8deg);
+}
+
 :root {
     --primary-dark: #2B2634;
     --primary-light: #FFF6EB;
     --secondary-dark: #1F1B27;
 }
-
 
 body {
     margin: 0px;
@@ -59,19 +62,19 @@ p {
 }
 
 button {
-    background-color: var(--primary-dark);
-    border: solid 2px var(--primary-light);
+    background-color: var(--primary-light);
+    border: 2px solid var(--primary-light);
     border-radius: 5px;
     padding: 10px;
     font-size: 1.1em;
     font-family: serif;
-    color: var(--primary-light);
+    color: var(--primary-dark);
     font-family: 'Lexend Deca';
 }
 
 button:hover {
-    background-color: var(--primary-light);
-    color: var(--primary-dark);
+    background-color: var(--primary-dark);
+    color: var(--primary-light);
     transition: 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
@@ -84,6 +87,13 @@ button:hover {
     color: var(--primary-light);
     transition: 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
     border: 2px var(--primary-light) solid;
+}
+
+.small-button {
+    font-size: 1em;
+    padding: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .profile {
@@ -108,69 +118,15 @@ button:hover {
     position: relative;
     display: flex;
     width: 100%;
-    height: calc(50vh - 60px);
     box-sizing: border-box;
     padding-right: 20px;
 }
 
-.post {
-    position: relative;
-    display: block;
-    align-items: center;
-    width: 30vw;
-    border: solid 2px var(--primary-light);
-    border-radius: 10px;
-    overflow: hidden;
-    padding: 20px;
-    margin: 20px 0px 0px 20px;
-    background-color: var(--primary-dark);
-}
-
-.postempty {
-    position: relative;
-    display: block;
-    align-items: center;
-    width: 30vw;
-    overflow: hidden;
-    padding: 20px;
-    margin: 20px 0px 0px 20px;
-}
-
-.images {
-    position: relative;
-    display: block;
-    width: 100%;
-    height: 60%;
-    overflow: hidden;
-}
-
 img {
     display: block;
-    position: absolute;
     width: 100%;
-    height: 100%;
     object-fit: cover;
     border-radius: 10px;
-}
-
-.post-text {
-    display: -webkit-box;
-    position: relative;
-    width: 100%;
-    box-sizing: border-box;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    margin: 0px;
-    padding-top: 15px;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-}
-
-.post-button {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
 }
 
 .logo {
@@ -186,4 +142,20 @@ img {
     display: inline;
     font-size: 3em;
     color: var(--primary-light);
+}
+
+.icon {
+    height: 30px;
+    width: auto;
+}
+
+textarea {
+    background-color: var(--primary-light);
+    color: var(--secondary-dark);
+    border-radius: 10px;
+    font-family: 'Lexend Deca';
+    resize: none;
+    box-sizing: border-box;
+    padding: 5px;
+    font-size: 1em;
 }

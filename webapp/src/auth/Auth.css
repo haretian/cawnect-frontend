@@ -88,20 +88,9 @@ form label {
     margin-bottom: 10px;
 }
 
-.splitter {
+.login-splitter {
     width: 2px;
     height: 85vh;
     background-color: var(--primary-light);
     border-radius: 2px;
-}
-
-.button {
-    padding: 0;
-}
-
-.button:hover {
-    background-color: var(--primary-dark);
-    color: var(--primary-light);
-    transition: 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-    border: 2px var(--primary-light) solid;
 }

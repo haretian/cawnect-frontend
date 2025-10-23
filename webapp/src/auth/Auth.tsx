@@ -10,6 +10,7 @@ function Auth() {
             <div className="main-login">
                 <div className="header-login">
                     <h1 className='logo-text'>welcome</h1>
+                    <div></div>
                     <div>
                         <img className="logo" src={Logo} />
                         <h1 className='logo-text'>caw!nect</h1>
@@ -17,7 +18,7 @@ function Auth() {
                 </div>
                 <div className="login-container">
                     <RegistrationForm />
-                    <div className='splitter'></div>
+                    <div className='login-splitter'></div>
                     <Login />
                 </div>
             </div>
