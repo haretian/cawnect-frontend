@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import '../assets/styles.css'
-import { setUser } from '../features/user/userSlice';
+import { setUserLogin } from '../features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
@@ -29,7 +29,7 @@ function Login() {
                 return
             }
 
-            dispatch(setUser({
+            dispatch(setUserLogin({
                 userid: user.id,
                 accountName: user.name,
                 displayName: user.name

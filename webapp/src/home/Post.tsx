@@ -1,4 +1,6 @@
 import './Post.css'
+import Comment from '../assets/comment.svg'
+import Edit from '../assets/edit.svg'
 
 function Post({ body, image }) {
     const SetImage = () => {
@@ -13,6 +15,10 @@ function Post({ body, image }) {
             <SetImage />
    {/*          <p className='post-title'>{title}</p> */}
             <p className='post-text'>{body}</p>
+            <div className="post-buttons">
+                <img className='icon' src={Edit} onClick={() => {}}/>
+                <img className='icon' src={Comment} onClick={() => {}}/>
+            </div>
         </div>
     )
 }

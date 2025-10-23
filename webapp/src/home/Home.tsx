@@ -11,10 +11,12 @@ import Search from '../assets/search.svg'
 import temp1 from '../assets/crow-placeholder-1.jpg'
 import temp2 from '../assets/crow-placeholder-2.jpg'
 import temp3 from '../assets/crow-placeholder-3.jpg'
+import temp4 from '../assets/crow-placeholder-4.jpg'
 const images = [
     temp1,
     temp2,
     temp3,
+    temp4,
     null
 ]
 
@@ -111,7 +113,7 @@ function Home() {
                 <div className='post-header'>
                     <div style={{ display: 'inline-flex' }}>
                         <img className="icon" src={Search}></img>
-                        <input id='search' type='text' placeholder='search posts...' onChange={filterPosts}></input>
+                        <input id='search' type='text' placeholder='search posts...' onChange={filterPosts} autoComplete='off'></input>
                     </div>
                     <button className='small-button' onClick={() => document.getElementById('postpopup')?.classList.remove('hidden')}>+ new post</button>
                 </div>

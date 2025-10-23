@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import userImg from '../assets/user_placeholder.jpg'
-import Cross from '../assets/cross.svg'
 
 
 function Sidebar() {
@@ -11,7 +10,7 @@ function Sidebar() {
     const [editStatus, setEditStatus] = useState(false)
     const [friends, setFriends] = useState([])
     const [editFoll, setEditFoll] = useState(false)
-    const MAXDISPLAY = 5;
+    const [MAXDISPLAY, setMAX] = useState(5)
 
     // Toggles the status update bar
     const toggleStatus = () => {
@@ -73,7 +72,7 @@ function Sidebar() {
 
     const ExtraFollowers = () => {
         if (friends.length > MAXDISPLAY) {
-            return <div id="morefollowers" className='morefollowers'>{'+' + (friends.length - MAXDISPLAY) +' more...' }</div>
+            return <div id="morefollowers" className='morefollowers'>{'+' + (friends.length - MAXDISPLAY) + ' more...'}</div>
         }
         return
     }
@@ -92,6 +91,21 @@ function Sidebar() {
 
         getUserFriends()
     }, []);
+
+    // For updating MAXDISPLAY when status changes
+    useEffect(() => {
+        // Update MAXDISPLAY
+        let el = document.getElementsByClassName('profile-status-text')[0] as HTMLDivElement;
+        let divHeight = el.offsetHeight
+        let lineHeight = parseInt(window.getComputedStyle(el, null).getPropertyValue('line-height'));
+        let lines = divHeight / lineHeight;
+        
+        if (lines >= 2) {
+            setMAX(4)
+        } else {
+            setMAX(5)
+        }
+    },[status])
 
     return <div className="sidebar-container">
         <div className="sidebar">
