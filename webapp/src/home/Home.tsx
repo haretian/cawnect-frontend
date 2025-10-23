@@ -60,7 +60,10 @@ function Home() {
         setDisplayPosts([{ body: content.value, userId: userid } as never, ...displayPosts])
     }
 
-    const cancelPost = () => {
+    const cancelPost = (e: React.MouseEvent) => {
+        if (e.target !== e.currentTarget)
+            return;
+
         let content = document.getElementById('body') as HTMLInputElement
         let file = document.getElementById('image') as HTMLInputElement
         content.value = ""
@@ -71,7 +74,7 @@ function Home() {
     }
 
     const PostPopup = () => {
-        return <div id='postpopup' className='new-post-popup-background hidden'>
+        return <div id='postpopup' className='new-post-popup-background hidden' onClick={cancelPost}>
             <div className='new-post-popup-container'>
                 <div className='new-post-content'>
                     <div className='new-post-empty-image'>
@@ -94,7 +97,7 @@ function Home() {
         async function getUserPosts() {
             let req = await fetch('https://jsonplaceholder.typicode.com/posts?userId=' + encodeURIComponent(userid))
             let response = await req.json()
-            response.forEach((elem:PostInfo) => { elem.image = images[Math.floor(Math.random() * images.length)] })
+            response.forEach((elem: PostInfo) => { elem.image = images[Math.floor(Math.random() * images.length)] })
             setDisplayPosts(response)
             setPosts(response)
         }

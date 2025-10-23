@@ -67,6 +67,7 @@ button {
     font-family: serif;
     color: var(--primary-dark);
     font-family: 'Lexend Deca';
+    cursor: pointer;
 }
 
 button:hover {

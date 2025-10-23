@@ -199,23 +199,6 @@
     margin-left: -10px;
 }
 
-.post-buttons {
-    display: flex;
-    margin-top: 10px;
-    justify-content: end;
-    gap: 10px;
-
-}
-
-.post-buttons>img {
-    padding: 3px;
-    transition: 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-}
-
-.post-buttons>img:hover {
-    background-color: var(--primary-light-transparent);
-}
-
 .new-post-popup-background {
     position: fixed;
     top: 0;
