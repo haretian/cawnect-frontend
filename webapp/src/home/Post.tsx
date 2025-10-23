@@ -2,10 +2,15 @@ import './Post.css'
 import Comment from '../assets/comment.svg'
 import Edit from '../assets/edit.svg'
 
-function Post({ body, image }) {
+type PostParams = {
+    body: any,
+    image: any
+}
+
+function Post(post: PostParams) {
     const SetImage = () => {
-        if (image)
-            return <img className='images' src={image} />
+        if (post.image)
+            return <img className='images' src={post.image} />
         else
             return
     }
@@ -14,7 +19,7 @@ function Post({ body, image }) {
         <div className="post">
             <SetImage />
    {/*          <p className='post-title'>{title}</p> */}
-            <p className='post-text'>{body}</p>
+            <p className='post-text'>{post.body}</p>
             <div className="post-buttons">
                 <img className='icon' src={Edit} onClick={() => {}}/>
                 <img className='icon' src={Comment} onClick={() => {}}/>

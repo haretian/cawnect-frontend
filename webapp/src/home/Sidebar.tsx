@@ -1,11 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type SyntheticEvent } from 'react'
 import { useSelector } from 'react-redux'
+import type { UserState } from '../main'
 import userImg from '../assets/user_placeholder.jpg'
 
+type FriendInfo = {
+    name: string,
+    id: number
+}
 
 function Sidebar() {
-    const displayName = useSelector((state) => state.user.displayName)
-    const userid = useSelector((state) => state.user.userid)
+    const displayName = useSelector((state: UserState) => state.user.displayName)
+    const userid = useSelector((state: UserState) => state.user.userid)
     const [status, setStatus] = useState("caw!")
     const [editStatus, setEditStatus] = useState(false)
     const [friends, setFriends] = useState([])
@@ -27,12 +32,14 @@ function Sidebar() {
         }
     }
 
-    const blurInput = (e) => {
+    const blurInput = (e: React.FocusEvent) => {
         const inputButton = document.getElementById('status-button') as HTMLInputElement
         if (e.relatedTarget != inputButton) {
             setEditStatus(false)
-            e.target.classList.add('sidebar-hidden')
-            e.target.value = "";
+            if (e.target != null && e.target instanceof HTMLInputElement) {
+                e.target.classList.add('sidebar-hidden')
+                e.target.value = "";
+            }
         }
     }
 
@@ -46,7 +53,7 @@ function Sidebar() {
             inputElem.classList.add('sidebar-hidden')
             if (inputElem.value != "") {
                 let exists = false
-                friends.forEach(element => {
+                friends.forEach((element: FriendInfo) => {
                     if (element.name == inputElem.value)
                         exists = true
                 });
@@ -57,17 +64,19 @@ function Sidebar() {
         }
     }
 
-    const blurInputFoll = (e) => {
+    const blurInputFoll = (e: React.FocusEvent) => {
         const inputButton = document.getElementById('follow-button') as HTMLInputElement
         if (e.relatedTarget != inputButton) {
             setEditFoll(false)
-            e.target.classList.add('sidebar-hidden')
-            e.target.value = "";
+            if (e.target != null && e.target instanceof HTMLInputElement) {
+                e.target.classList.add('sidebar-hidden')
+                e.target.value = "";
+            }
         }
     }
 
-    const deleteFollower = (e) => {
-        setFriends(friends.filter((elem, _) => { return e.target.id != (elem.name + 'pfp') }))
+    const deleteFollower = (e: SyntheticEvent) => {
+        setFriends(friends.filter((elem: FriendInfo, _) => { return (e.target as HTMLElement).id != (elem.name + 'pfp') }))
     }
 
     const ExtraFollowers = () => {
@@ -82,7 +91,7 @@ function Sidebar() {
         async function getUserFriends() {
             let req = await fetch('https://jsonplaceholder.typicode.com/users')
             let response = await req.json()
-            setFriends(response.filter((element) => {
+            setFriends(response.filter((element : FriendInfo) => {
                 if (userid == 0)
                     return false
                 return (element.id == (userid + 1) % 10 || element.id == (userid + 2) % 10 || element.id == (userid + 3) % 10)
@@ -99,13 +108,13 @@ function Sidebar() {
         let divHeight = el.offsetHeight
         let lineHeight = parseInt(window.getComputedStyle(el, null).getPropertyValue('line-height'));
         let lines = divHeight / lineHeight;
-        
+
         if (lines >= 2) {
             setMAX(4)
         } else {
             setMAX(5)
         }
-    },[status])
+    }, [status])
 
     return <div className="sidebar-container">
         <div className="sidebar">
@@ -119,7 +128,7 @@ function Sidebar() {
             <div className="splitter"></div>
             <div className="sidebar-follows">
                 <div className='followers'>
-                    {friends.map((elem, i) => {
+                    {friends.map((elem: FriendInfo, i) => {
                         if (i > MAXDISPLAY - 1) {
                             return;
                         }

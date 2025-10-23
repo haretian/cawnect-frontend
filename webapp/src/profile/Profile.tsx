@@ -6,13 +6,20 @@ import UserPhoto from '../assets/user_placeholder.jpg'
 import AddPhoto from '../assets/addphoto.svg'
 import { setUserProfile } from '../features/user/userSlice';
 import { useDispatch, useSelector } from 'react-redux'
+import type { UserState } from '../main'
+
+declare global {
+    interface HTMLInputElement {
+        lastVal: number
+    }
+}
 
 function Profile() {
     const navigate = useNavigate()
-    const dispName = useSelector((state) => state.user.displayName)
-    const email = useSelector((state) => state.user.userEmail)
-    const phone = useSelector((state) => state.user.phone)
-    const zip = useSelector((state) => state.user.zip)
+    const dispName = useSelector((state: UserState) => state.user.displayName)
+    const email = useSelector((state: UserState) => state.user.userEmail)
+    const phone = useSelector((state: UserState) => state.user.phone)
+    const zip = useSelector((state: UserState) => state.user.zip)
     const dispatch = useDispatch()
 
     const inputFields = document.getElementsByClassName('input');
@@ -149,12 +156,13 @@ function Profile() {
     }
 
     // Allow only numeric
-    const allowOnlyNumeric = (evt) => {
-        evt.currentTarget.value = evt.currentTarget.value.replace(/[^0-9]/g, '');
+    const allowOnlyNumeric = (evt: React.FormEvent) => {
+        let target = evt.currentTarget as HTMLInputElement
+        target.value = target.value.replace(/[^0-9]/g, '');
     }
 
-    const formatPhone = (evt) => {
-        const phone = evt.currentTarget;
+    const formatPhone = (evt: React.FormEvent) => {
+        const phone = evt.currentTarget as HTMLInputElement;
         allowOnlyNumeric(evt);
 
         // Insert formatting

@@ -1,6 +1,7 @@
-import { useEffect, useReducer, useState } from 'react'
+import { useEffect, useState, type SyntheticEvent } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import type { UserState } from '../main'
 import Post from './Post'
 import Sidebar from './Sidebar'
 import '../assets/styles.css'
@@ -20,32 +21,38 @@ const images = [
     null
 ]
 
+type PostInfo = {
+    body: string,
+    image: (string | null)
+}
+
 function Home() {
     const navigate = useNavigate()
-    const userid = useSelector((state) => state.user.userid)
+    const userid = useSelector((state: UserState) => state.user.userid)
     const [posts, setPosts] = useState([])
     const [displayPosts, setDisplayPosts] = useState([])
 
-    const filterPosts = (e) => {
-        setDisplayPosts(posts.filter((elem) => {
-            return elem.body.includes(e.target.value)
+    const filterPosts = (e: SyntheticEvent) => {
+        setDisplayPosts(posts.filter((elem: PostInfo) => {
+            return elem.body.includes((e.target as HTMLInputElement).value)
         }))
     }
 
-    const changeLabel = (e) => {
+    const changeLabel = (e: SyntheticEvent) => {
         let label = document.getElementById("imagelabel")
-        label.innerHTML = e.target.value
+        if (label != null)
+            label.innerHTML = (e.target as HTMLInputElement).value
     }
 
     // NO ID YET
-    const addPost = (e) => {
+    const addPost = () => {
         let content = document.getElementById('body') as HTMLInputElement
         if (content.value == "") {
             return
         }
 
         let popup = document.getElementById('postpopup')
-        popup.classList.add('hidden')
+        popup?.classList.add('hidden')
 
         let search = document.getElementById('search') as HTMLInputElement
         search.value = ""
@@ -53,14 +60,14 @@ function Home() {
         setDisplayPosts([{ body: content.value, userId: userid } as never, ...displayPosts])
     }
 
-    const cancelPost = (e) => {
+    const cancelPost = () => {
         let content = document.getElementById('body') as HTMLInputElement
         let file = document.getElementById('image') as HTMLInputElement
         content.value = ""
         file.value = ""
 
         let popup = document.getElementById('postpopup')
-        popup.classList.add('hidden')
+        popup?.classList.add('hidden')
     }
 
     const PostPopup = () => {
@@ -87,7 +94,7 @@ function Home() {
         async function getUserPosts() {
             let req = await fetch('https://jsonplaceholder.typicode.com/posts?userId=' + encodeURIComponent(userid))
             let response = await req.json()
-            response.forEach((elem) => { elem.image = images[Math.floor(Math.random() * images.length)] })
+            response.forEach((elem:PostInfo) => { elem.image = images[Math.floor(Math.random() * images.length)] })
             setDisplayPosts(response)
             setPosts(response)
         }
@@ -118,7 +125,7 @@ function Home() {
                     <button className='small-button' onClick={() => document.getElementById('postpopup')?.classList.remove('hidden')}>+ new post</button>
                 </div>
                 <div className='posts-container'>
-                    {displayPosts.map((postobj, i) => { return <Post key={i} body={postobj.body} image={postobj.image} /> })}
+                    {displayPosts.map((postobj: PostInfo, i) => { return <Post key={i} body={postobj.body} image={postobj.image} /> })}
                 </div>
             </div>
         </>

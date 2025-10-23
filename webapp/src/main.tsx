@@ -10,6 +10,7 @@ import Profile from './profile/Profile.tsx'
 import userReducer from './features/user/userSlice'
 
 const store = configureStore({ reducer: { user: userReducer } })
+export type UserState = ReturnType<typeof store.getState>
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
