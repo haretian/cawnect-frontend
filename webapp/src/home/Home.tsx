@@ -38,7 +38,7 @@ function PostPopup(props: PopupFuncs) {
             label.innerHTML = (e.target as HTMLInputElement).value
     }
 
-    return <div id='postpopup' className='new-post-popup-background hidden' onClick={props.cancelPost}>
+    return <div id='postpopup' className='new-post-popup-background popup-hidden' onClick={props.cancelPost}>
         <div className='new-post-popup-container'>
             <div className='new-post-content'>
                 <div className='new-post-empty-image'>
@@ -77,7 +77,7 @@ function Home() {
         }
 
         let popup = document.getElementById('postpopup')
-        popup?.classList.add('hidden')
+        popup?.classList.add('popup-hidden')
 
         let search = document.getElementById('search') as HTMLInputElement
         search.value = ""
@@ -95,7 +95,7 @@ function Home() {
         file.value = ""
 
         let popup = document.getElementById('postpopup')
-        popup?.classList.add('hidden')
+        popup?.classList.add('popup-hidden')
     }
 
     useEffect(() => {
@@ -124,7 +124,7 @@ function Home() {
                         <img className="icon" src={Search}></img>
                         <input id='search' type='text' placeholder='search posts...' onChange={filterPosts} autoComplete='off'></input>
                     </div>
-                    <button className='small-button' onClick={() => document.getElementById('postpopup')?.classList.remove('hidden')}>+ new post</button>
+                    <button className='small-button' onClick={() => document.getElementById('postpopup')?.classList.remove('popup-hidden')}>+ new post</button>
                 </div>
                 <Posts posts={displayPosts} />
             </div>

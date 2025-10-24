@@ -147,3 +147,7 @@ textarea {
 label {
   text-wrap: nowrap;
 }
+
+.hidden {
+  display: none;
+}

@@ -30,6 +30,7 @@
     align-items: center;
     background-color: #1f1b2780;
     z-index: 100;
+    transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
 .new-post-popup-container {
@@ -97,6 +98,7 @@
     width: 200px;
 }
 
-.hidden {
-    display: none;
+.popup-hidden {
+    pointer-events: none;
+    opacity: 0;
 }
