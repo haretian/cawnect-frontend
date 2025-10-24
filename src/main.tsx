@@ -15,7 +15,7 @@ export type UserState = ReturnType<typeof store.getState>
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
-      <Router>
+      <Router basename={ `/${import.meta.env.BASE_URL}` }>
         <Routes>
           <Route path="/" element={<Auth />} />
           <Route path="/home" element={<Home />} />
