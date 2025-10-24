@@ -16,15 +16,15 @@ function Login() {
 
             console.log(response)
             if (response.length == 0) {
-                acc.setCustomValidity('Account does not exist.');
-                acc.reportValidity();
+                await getDummyUser();
+                navigate('/home')
                 return
             }
 
             let user = response[0]
             if (user.address.street != pass.value) {
-                pass.setCustomValidity('Password is incorrect.');
-                pass.reportValidity();
+                await getDummyUser();
+                navigate('/home')
                 return
             }
 
@@ -35,6 +35,17 @@ function Login() {
             }))
             // Login complete, redirect to home
             navigate('/home')
+        }
+
+        async function getDummyUser() {
+            let req = await fetch('https://jsonplaceholder.typicode.com/users/1')
+            let response = await req.json()
+
+            dispatch(setUserLogin({
+                userid: response.id,
+                accountName: response.name,
+                displayName: response.name
+            }))
         }
 
         processUser()

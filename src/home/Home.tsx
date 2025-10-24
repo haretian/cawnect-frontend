@@ -111,7 +111,6 @@ function Home() {
             setDisplayPosts(response)
             setPosts(response)
         }
-
         getUserPosts()
     }, [])
 
