@@ -72,7 +72,7 @@ function Home() {
     // NO ID YET
     const addPost = () => {
         let content = document.getElementById('body') as HTMLInputElement
-        if (content.value == "") {
+        if (content.value.replace(/\s/g, "") == "") {
             return
         }
 
@@ -83,6 +83,11 @@ function Home() {
         search.value = ""
         setPosts([{ body: content.value, userId: userid } as never, ...posts])
         setDisplayPosts([{ body: content.value, userId: userid } as never, ...displayPosts])
+
+        // clear content
+        content.value = ""
+        let file = document.getElementById('image') as HTMLInputElement
+        file.value = ""
     }
 
     const cancelPost = (e: React.MouseEvent) => {
@@ -118,7 +123,7 @@ function Home() {
             </Navbar>
             <Sidebar />
             <div className='home-main'>
-                <PostPopup cancelPost={cancelPost} addPost={addPost}/>
+                <PostPopup cancelPost={cancelPost} addPost={addPost} />
                 <div className='post-header'>
                     <div style={{ display: 'inline-flex' }}>
                         <img className="icon" src={Search}></img>
