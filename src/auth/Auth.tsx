@@ -1,23 +1,23 @@
 import type { UserState } from '../main'
 import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import {/*  useDispatch, */ useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { loginUser } from '../features/user/userSlice'
+//import { loginUser } from '../features/user/userSlice'
 import RegistrationForm from './registration/Registration'
 import Login from './login/Login'
-import { url } from '../main'
+//import { url } from '../main'
 
 import './auth.css'
 import Logo from '../assets/logo_light.svg'
 
 function Auth() {
     const username = useSelector((state: UserState) => state.user.username)
-    const dispatch = useDispatch()
+    //const dispatch = useDispatch()
     const navigate = useNavigate()
 
     // Log in user if cookie is set
     useEffect(() => {
-        async function processUser() {
+/*         async function processUser() {
             // Try and get headline
             let response = await fetch(url('/users/1'), {
                 method: 'GET',
@@ -33,9 +33,9 @@ function Auth() {
             let res = await response.json();
             dispatch(loginUser({ username: res.username }));
             return
-        }
+        } */
 
-        processUser();
+        //processUser();
     }, [])
 
     // Redirect when logged in

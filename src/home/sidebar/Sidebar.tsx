@@ -1,7 +1,7 @@
 import { useEffect, useState, type SyntheticEvent } from 'react'
-import { /*useDispatch,*/ useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { url, type UserState } from '../../main'
-//import { updateStatus } from '../../features/user/userSlice'
+import { updateStatus } from '../../features/user/userSlice'
 import userImg from '../../assets/img/user_placeholder.jpg'
 import './Sidebar.css'
 
@@ -27,7 +27,7 @@ function Sidebar(prop: imageProp) {
     const [editFoll, setEditFoll] = useState(false)
     const [buttonMessage, setButtonMessage] = useState("")
     const [MAXDISPLAY, setMAX] = useState(5)
-    //const dispatch = useDispatch()
+    const dispatch = useDispatch()
 
     // Toggles the status update bar
     const toggleStatus = () => {
@@ -40,19 +40,19 @@ function Sidebar(prop: imageProp) {
             inputElem.classList.add('sidebar-hidden')
             if (inputElem.value != "") {
                 // Submit headline
-                //let headline = inputElem.value;
-/*                 (async () => {
+                let headline = inputElem.value;
+                (async () => {
                     // Set headline
-                    let response = await fetch(url('/headline'), {
+/*                     let response = await fetch(url('/headline'), {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ headline: headline }),
                         credentials: "include",
-                    })
+                    }) */
 
-                    if (response.ok)
-                        dispatch(updateStatus({ status: headline }));
-                })(); */
+/*                     if (response.ok) */
+                    dispatch(updateStatus({ status: headline }));
+                })();
             }
             inputElem.value = "";
         }

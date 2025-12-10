@@ -18,7 +18,7 @@ export const url = (endpoint: string) => `https://jsonplaceholder.typicode.com/$
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
-      <Router>
+      <Router basename={ `/${import.meta.env.BASE_URL}` }>
         <Routes>
           <Route path="/login" element={<Auth />} />
           <Route path="/" element={<Home />} />

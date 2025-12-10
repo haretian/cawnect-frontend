@@ -296,7 +296,7 @@ function Home() {
             dispatch(loginUser({ username: res.username }));
 
             // Process headline
-            dispatch(updateStatus({ status: res.headline }));
+            dispatch(updateStatus({ status: res.company.catchPhrase }));
 
             // Get necessary fields for home
 /* 
