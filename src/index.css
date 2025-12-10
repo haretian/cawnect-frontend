@@ -19,6 +19,8 @@
   --secondary-dark: #1F1B27;
   --primary-light-transparent: #fff6eb31;
   --primary-dark-transparent: #1f1b2777;
+  --tertiary-light: #D1A0C6;
+  --tertiary-dark: #643E5C;
 }
 
 body {
@@ -82,16 +84,6 @@ button {
   cursor: pointer;
 }
 
-button:hover {
-  background-color: var(--primary-dark);
-  color: var(--primary-light);
-  transition: 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-}
-
-.button {
-  padding: 0;
-}
-
 .button:hover {
   background-color: var(--primary-dark);
   color: var(--primary-light);
@@ -140,7 +132,7 @@ textarea {
   font-family: 'Lexend Deca';
   resize: none;
   box-sizing: border-box;
-  padding: 5px;
+  padding: 20px;
   font-size: 1em;
 }
 

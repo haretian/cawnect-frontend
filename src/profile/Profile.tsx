@@ -1,7 +1,8 @@
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { setUserProfile } from '../features/user/userSlice';
-import type { UserState } from '../main'
+import { updateUserProfile, loginUser, logoutUser, updateAvatar } from '../features/user/userSlice';
+import { type UserState, url } from '../main'
 import Navbar from '../navbar/Navbar';
 
 import './profile.css'
@@ -15,32 +16,124 @@ declare global {
 }
 
 function Profile() {
-    const navigate = useNavigate()
+    const username = useSelector((state: UserState) => state.user.username)
     const dispName = useSelector((state: UserState) => state.user.displayName)
     const email = useSelector((state: UserState) => state.user.userEmail)
     const phone = useSelector((state: UserState) => state.user.phone)
     const zip = useSelector((state: UserState) => state.user.zip)
+    const passLen = useSelector((state: UserState) => state.user.passwordLen)
+    const avatar = useSelector((state: UserState) => state.user.avatar)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const fileInput = useRef<HTMLInputElement | null>(null)
 
     const inputFields = document.getElementsByClassName('input');
     const info = document.getElementsByClassName('info');
 
-    const updateEntries = () => {
+    // Try and log in user from cookie if possible
+    useEffect(() => {
+        async function processUser() {
+            // Try and get display name
+            let response = await fetch(url('/display'), {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: "include",
+            })
+
+            // Can't make request means not logged in, log user out
+            if (!response.ok) {
+                dispatch(logoutUser());
+                return
+            }
+
+            // Ok, log user in
+            let res = await response.json();
+            dispatch(loginUser({ username: res.username }));
+
+            // Get necessary fields for profile
+
+            // Process fetched display name
+            let payload = {
+                display: "",
+                email: "",
+                phone: "",
+                zipcode: "",
+                avatar: "",
+            }
+
+            payload.display = res.display;
+
+            // Get all values
+            await Promise.all(Object.keys(payload).map(async (key) => {
+                await getEntry(key, payload);
+            }))
+
+            dispatch(updateUserProfile(payload))
+        }
+
+        processUser();
+    }, [])
+
+    const getEntry = async (key: string, object: any) => {
+        try {
+            const response = await fetch(url(`/${key}`), {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: "include",
+            })
+            const res = await response.json();
+            object[key] = res[key];
+        } catch (err) {
+            console.log(`cannot fetch ${key}`, err);
+            object[key] = "failed to fetch";
+        }
+    }
+
+    const putEntry = async (key: string, object: any) => {
+        if (!object[key])
+            return;
+
+        try {
+            const response = await fetch(url(`/${key}`), {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: "include",
+                body: JSON.stringify({
+                    [key]: object[key]
+                }),
+            })
+            const res = await response.json();
+            object[key] = res[key];
+        } catch (err) {
+            console.log(`cannot fetch PUT ${key}`, err);
+            object[key] = "failed to fetch PUT";
+        }
+    }
+
+    // Redirect back home if username becomes empty (on logout)
+    useEffect(() => {
+        if (username === "")
+            navigate("/login", { replace: true });
+    }, [username])
+
+    const updateEntries = async () => {
         if (!validateEntries())
             return;
 
         let payload = {
-            displayName: "",
+            display: "",
             email: "",
             phone: "",
-            zip: "",
-            password: ""
+            zipcode: ""
         }
+        let password = "";
 
         // Display name
         let input = inputFields[0] as HTMLInputElement
         if (input.value) {
-            payload.displayName = input.value
+            payload.display = input.value
+
             input.value = '';
             info[0].innerHTML = 'updated successfully'
             let infoDiv = info[0] as HTMLDivElement
@@ -70,7 +163,7 @@ function Profile() {
         // Zip code
         input = inputFields[3] as HTMLInputElement
         if (input.value) {
-            payload.zip = input.value
+            payload.zipcode = input.value
             input.value = '';
             info[3].innerHTML = 'updated successfully'
             let infoDiv = info[3] as HTMLDivElement
@@ -80,14 +173,35 @@ function Profile() {
         // Password case
         input = inputFields[4] as HTMLInputElement
         if (input.value) {
-            payload.password = input.value;
+            password = input.value;
             input.value = '';
             (inputFields[5] as HTMLInputElement).value = '';
             info[4].innerHTML = 'updated successfully';
             (info[4] as HTMLDivElement).style.display = 'block';
         }
 
-        dispatch(setUserProfile(payload))
+        // Put all values
+        await Promise.all(Object.keys(payload).map(async (key) => {
+            await putEntry(key, payload);
+        }))
+
+        // Password case
+        if (password) {
+            try {
+                await fetch(url(`/password`), {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: "include",
+                    body: JSON.stringify({
+                        password: password,
+                    }),
+                })
+            } catch (err) {
+                console.log(`cannot fetch PUT password`, err);
+            }
+        }
+
+        dispatch(updateUserProfile(payload))
     }
 
     // Validation routine
@@ -155,6 +269,31 @@ function Profile() {
         return valid;
     }
 
+    const uploadAvatar = () => {
+        const fd = new FormData();
+
+        // Confirm file exists
+        let file = fileInput.current?.files ? fileInput.current?.files[0] : null;
+        if (file) {
+            fd.append('image', file);
+
+            (async () => {
+                try {
+                    const response = await fetch(url("/avatar"), {
+                        method: 'PUT',
+                        credentials: "include",
+                        body: fd,
+                    })
+                    const res = await response.json();
+
+                    dispatch(updateAvatar({ avatar: res.avatar }));
+                } catch (err) {
+                    console.log(`cannot fetch PUT avatar`, err);
+                }
+            })();
+        }
+    }
+
     // Allow only numeric
     const allowOnlyNumeric = (evt: React.FormEvent) => {
         let target = evt.currentTarget as HTMLInputElement
@@ -179,20 +318,21 @@ function Profile() {
     return (
         <>
             <Navbar>
-                <button className="header-button" onClick={() => { navigate('/home') }}>home</button>
+                <button className="button header-button" onClick={() => { navigate('/') }}>home</button>
             </Navbar>
             <div className="profile-main">
                 <div className="profile-info">
-                    <img className='profile-photo' src={UserPhoto}></img>
+                    <img className='profile-photo' src={avatar ? avatar : UserPhoto}></img>
                     <label className='profile-upload' htmlFor='photo'>
                         <img src={AddPhoto} />
                     </label>
-                    <input id='photo' type='file' className='hidden' />
+                    <input id='photo' ref={fileInput} type='file' className='hidden' onChange={uploadAvatar} accept='.png,.jpg,.jpeg' />
                     <h1 className='profile-title'>my profile</h1>
-                    <div className='profile-current'>{dispName}</div>
-                    <div className='profile-current'>{email}</div>
-                    <div className='profile-current'>{phone}</div>
-                    <div className='profile-current'>{zip}</div>
+                    <div className='profile-current'>{dispName ? dispName : username}</div>
+                    <div className='profile-current'>{email ? email : "n/a"}</div>
+                    <div className='profile-current'>{phone ? phone : "n/a"}</div>
+                    <div className='profile-current'>{zip ? zip : "n/a"}</div>
+                    <div className='profile-current'>{"*".repeat(passLen)}</div>
                 </div>
                 <div className='update-fields'>
                     <div className="profile">
@@ -226,7 +366,7 @@ function Profile() {
                         <p className="info" id="cpassInfo"></p>
                     </div>
                     <div className="profile-button-container">
-                        <button className="update-button" onClick={() => { updateEntries() }}>update info</button>
+                        <button className="button update-button" onClick={() => { updateEntries() }}>update info</button>
                     </div>
                 </div>
             </div>

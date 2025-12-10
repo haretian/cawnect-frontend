@@ -20,8 +20,10 @@
 }
 
 .profile-photo {
+    justify-self: center;
     border-radius: 50%;
     width: 200px;
+    height: 200px;
 }
 
 .profile-photo:hover {
@@ -32,6 +34,7 @@
     position: absolute;
     display: flex;
     justify-content: center;
+    justify-self: center;
     align-items: center;
     border-radius: 50%;
     width: 200px;

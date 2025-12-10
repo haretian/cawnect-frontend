@@ -7,18 +7,21 @@ import './index.css'
 import Auth from './auth/Auth.tsx'
 import Home from './home/Home.tsx'
 import Profile from './profile/Profile.tsx'
-import userReducer from './features/user/userSlice'
+import userReducer from './features/user/userSlice.tsx'
+import contentReducer from './features/content/contentSlice.tsx'
 
-const store = configureStore({ reducer: { user: userReducer } })
-export type UserState = ReturnType<typeof store.getState>
+const store = configureStore({ reducer: { user: userReducer, content: contentReducer } });
+export type UserState = ReturnType<typeof store.getState>;
+
+export const url = (endpoint: string) => `https://cawnectserver-9466fa42c2dc.herokuapp.com${endpoint}`;
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
-      <Router basename={ `/${import.meta.env.BASE_URL}` }>
+      <Router>
         <Routes>
-          <Route path="/" element={<Auth />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/login" element={<Auth />} />
+          <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
         </Routes>
       </Router>

@@ -1,71 +1,122 @@
-import { useDispatch } from 'react-redux';
-import { setUserLogin } from '../../features/user/userSlice';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser, setLoginError, resetLoginError } from '../../features/user/userSlice';
+import { useRef, useState } from 'react';
+import { type UserState, url } from '../../main';
 
 function Login() {
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
+    const authError = useSelector((state: UserState) => state.user.loginError);
+    const dispatch = useDispatch();
 
+    const [isFocused, setFocus] = useState(false);
+
+    const form = useRef<HTMLFormElement | null>(null);
+    const acc = useRef<HTMLInputElement | null>(null);
+    const pass = useRef<HTMLInputElement | null>(null);
+
+    // Get user, then try and login
     const processLogin = () => {
-        const acc = document.getElementById('login-acc') as HTMLInputElement;
-        const pass = document.getElementById('login-pass') as HTMLInputElement;
-
         async function processUser() {
-            let req = await fetch('https://jsonplaceholder.typicode.com/users?name=' + encodeURIComponent(acc.value))
-            let response = await req.json()
+            let account = acc.current?.value
+            let password = pass.current?.value
 
-            console.log(response)
-            if (response.length == 0) {
-                await getDummyUser();
-                navigate('/home')
+            if (!acc || !password) {
                 return
             }
 
-            let user = response[0]
-            if (user.address.street != pass.value) {
-                await getDummyUser();
-                navigate('/home')
-                return
+            try {
+                let response = await fetch(url('/login'), {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: "include",
+                    body: JSON.stringify({ username: account, password: password })
+                })
+
+                // Check if response is ok
+                if (!response.ok) {
+                    if (response.status === 401)
+                        dispatch(setLoginError({
+                            msg: response.statusText,
+                        }));
+                    else
+                        dispatch(setLoginError({
+                            msg: "failed to fetch server",
+                        }));
+                    return
+                }
+
+                let res = await response.json();
+
+                dispatch(loginUser({
+                    username: res.username,
+                }));
+            } catch (err) {
+                console.log(err);
             }
-
-            dispatch(setUserLogin({
-                userid: user.id,
-                accountName: user.name,
-                displayName: user.name
-            }))
-            // Login complete, redirect to home
-            navigate('/home')
-        }
-
-        async function getDummyUser() {
-            let req = await fetch('https://jsonplaceholder.typicode.com/users/1')
-            let response = await req.json()
-
-            dispatch(setUserLogin({
-                userid: response.id,
-                accountName: response.name,
-                displayName: response.name
-            }))
         }
 
         processUser()
     }
 
+    // Submit form on enter
+    const handleEnter = (event: React.KeyboardEvent) => {
+        if (event.key === 'Enter' && isFocused) {
+            form.current?.dispatchEvent(new Event("submit"))
+        }
+    }
+
+    // Detect focus for an enter keypress
+    const detectFocus = () => {
+        setFocus(true);
+    }
+
+    const loseFocus = () => {
+        setFocus(false);
+    }
+
+    const resetValidity = (event: React.ChangeEvent) => {
+        (event.target as HTMLInputElement).setCustomValidity('');
+        dispatch(resetLoginError());
+    }
+
+    const openGoogleAuth = () => {
+        window.location.href = url("/auth/google");
+    }
+
     return (
-        <form className="form" onSubmit={(e) => { e.preventDefault(); return processLogin() }}>
-            <h2>login</h2>
-            <div className='input-container'>
-                <div className='input-field'>
-                    <label>account name</label>
-                    <input type="text" name="accName" id="login-acc" required={true} onChange={(event) => event.target.setCustomValidity('')} />
+        <div className='form'>
+            <form ref={form} onKeyDown={handleEnter} onSubmit={(e) => { e.preventDefault(); return processLogin() }}>
+                <h2>login</h2>
+                <div className="error">{authError}</div>
+                <div className='input-container'>
+                    <div className='input-field'>
+                        <label>username</label>
+                        <input type="text" ref={acc} required={true} onChange={resetValidity} onFocus={detectFocus} onBlur={loseFocus} />
+                    </div>
+                    <div className='input-field'>
+                        <label>password</label>
+                        <input type="password" ref={pass} required={true} onChange={resetValidity} onFocus={detectFocus} onBlur={loseFocus} />
+                    </div>
                 </div>
-                <div className='input-field'>
-                    <label>password</label>
-                    <input type="password" name="pass" id="login-pass" required={true} onChange={(event) => event.target.setCustomValidity('')} />
+                <input className="button" type="submit" value="login" style={{ width: '50%' }} />
+            </form>
+            <div className='login-separator'></div>
+            <button className="gsi-material-button" onClick={openGoogleAuth}>
+                <div className="gsi-material-button-state"></div>
+                <div className="gsi-material-button-content-wrapper">
+                    <div className="gsi-material-button-icon">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" xmlnsXlink="http://www.w3.org/1999/xlink" style={{ display: 'block' }}>
+                            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
+                            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
+                            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
+                            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
+                            <path fill="none" d="M0 0h48v48H0z"></path>
+                        </svg>
+                    </div>
+                    <span className="gsi-material-button-contents">Continue with Google</span>
+                    <span style={{display: 'none'}} >Continue with Google</span>
                 </div>
-            </div>
-            <input className="button" type="submit" value="login" style={{ width: '30%' }} />
-        </form>
+            </button>
+        </div>
     )
 }
 

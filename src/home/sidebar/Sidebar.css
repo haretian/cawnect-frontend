@@ -35,6 +35,7 @@
     padding: 10px;
     border-radius: 50%;
     box-sizing: border-box;
+    aspect-ratio: 1 / 1;
 }
 
 .profile-username {
@@ -95,6 +96,16 @@
 
 .follows-user>div {
     display: inline-block;
+    overflow: hidden;
+}
+
+.follows-user>div>div {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.followers {
     width: 100%;
 }
 
@@ -103,6 +114,7 @@
     display: inline-block;
     border-radius: 50%;
     width: 50px;
+    height: 50px;
     margin-right: 8px;
     transition: 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
@@ -119,6 +131,17 @@
     white-space: nowrap;
     overflow: hidden;
     font-weight: bold;
+}
+
+.follows-user-name span {
+    display: inline;
+    max-width: 128px;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-weight: normal;
+    font-size: 0.8em;
 }
 
 .follows-input-container {

@@ -1,7 +1,9 @@
-import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../../features/user/userSlice';
+import { url } from '../../main';
 
 function RegistrationForm() {
-    const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const setTimestamp = () => {
         const ts = document.getElementById('ts') as HTMLInputElement;
@@ -23,7 +25,7 @@ function RegistrationForm() {
     }
 
     // Form validation routine
-    const validateForm = () => {
+    const validateForm = async () => {
         const acc = document.getElementById('acc') as HTMLInputElement;
         if (acc.value.slice(0, 1).match(/[0-9]/)) {
             acc.setCustomValidity('Account name cannot start with a number.');
@@ -54,7 +56,83 @@ function RegistrationForm() {
             return false;
         }
 
-        return true;
+        // If validations pass, register user
+        const email = document.getElementById('email') as HTMLInputElement;
+        const phone = document.getElementById('phone') as HTMLInputElement;
+        const zip = document.getElementById('zip') as HTMLInputElement;
+
+        (async () => {
+            try {
+                let response = await fetch(url('/register'), {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: acc.value,
+                        email: email.value,
+                        dob: dob.value,
+                        phone: phone.value,
+                        zipcode: zip.value,
+                        password: pass.value
+                    })
+                });
+
+                // Check if response is ok
+                if (!response.ok) {
+                    if (response.statusText.includes("Duplicate")) {
+                        acc.setCustomValidity('Account already exists.');
+                        acc.reportValidity();
+                    }
+                    return
+                }
+
+                // Login user
+                response = await fetch(url('/login'), {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: acc.value, password: pass.value })
+                })
+
+                // Check if response is ok
+                if (!response.ok) {
+                    console.log("user registered but failed to log in");
+                    return
+                }
+
+                let res = await response.json();
+
+                // User logged in, set values if necessary
+                const disp = document.getElementById('disp') as HTMLInputElement;
+                if (disp.value) {
+                    await fetch(url('/display'), {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ display: disp.value }),
+                        credentials: "include",
+                    }).catch((err) => {
+                        console.log("failed to set display name", err.toString());
+                    })
+                }
+
+                // Set headline
+                await fetch(url('/headline'), {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ headline: "caw!" }),
+                    credentials: "include",
+                }).catch((err) => {
+                    console.log("failed to set headline", err.toString());
+                })
+
+                // Change website state
+                dispatch(loginUser({
+                    username: res.username,
+                }));
+            } catch (err) {
+                console.log(err);
+            }
+        })();
+
+        return false;
     }
 
     const linkPassword = () => {
@@ -64,29 +142,21 @@ function RegistrationForm() {
         pass.setCustomValidity('');
     }
 
-    const processForm = () => {
-        if (!validateForm())
-            return;
-
-        // Login complete, redirect to home
-        navigate('/home')
-    }
-
     return (
-        <form className="form" onSubmit={(e) => { e.preventDefault(); return processForm() }}>
+        <form className="form" onSubmit={(e) => { e.preventDefault(); return validateForm() }}>
             <h2>registration</h2>
             <div className="input-columns">
                 <div className='input-field'>
-                    <label>account name*</label>
+                    <label>username*</label>
                     <input type="text" name="accName" id="acc" required={true} onChange={(event) => event.target.setCustomValidity('')} />
                 </div>
                 <div className='input-field'>
                     <label>display name</label>
-                    <input type="text" name="displayName" />
+                    <input type="text" name="displayName" id="disp" />
                 </div>
                 <div className='input-field'>
                     <label>email address*</label>
-                    <input type="email" name="email" required={true} />
+                    <input type="email" name="email" id="email" required={true} />
                 </div>
                 <div className='input-field'>
                     <label>date of birth*</label>

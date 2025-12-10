@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1762507298388" clover="3.2.0">
+  <project timestamp="1762507298388" name="All files">
+    <metrics statements="67" coveredstatements="62" conditionals="26" coveredconditionals="16" methods="19" coveredmethods="16" elements="112" coveredelements="94" complexity="0" loc="67" ncloc="67" packages="2" files="2" classes="2"/>
+    <package name="content">
+      <metrics statements="26" coveredstatements="24" conditionals="10" coveredconditionals="6" methods="13" coveredmethods="12"/>
+      <file name="contentSlice.tsx" path="C:\Users\matth\Documents\GitHub\hw5-haretian\webapp\src\features\content\contentSlice.tsx">
+        <metrics statements="26" coveredstatements="24" conditionals="10" coveredconditionals="6" methods="13" coveredmethods="12"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="9" type="stmt"/>
+        <line num="5" count="101" type="cond" truecount="1" falsecount="1"/>
+        <line num="6" count="101" type="cond" truecount="1" falsecount="1"/>
+        <line num="8" count="101" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="29" count="5" type="stmt"/>
+        <line num="30" count="225" type="cond" truecount="1" falsecount="1"/>
+        <line num="31" count="50" type="stmt"/>
+        <line num="35" count="5" type="stmt"/>
+        <line num="40" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="41" count="0" type="stmt"/>
+        <line num="43" count="2" type="stmt"/>
+        <line num="44" count="2" type="stmt"/>
+        <line num="45" count="2" type="stmt"/>
+        <line num="49" count="1" type="stmt"/>
+        <line num="50" count="1" type="stmt"/>
+        <line num="54" count="1" type="stmt"/>
+        <line num="55" count="20" type="stmt"/>
+        <line num="57" count="1" type="stmt"/>
+        <line num="61" count="1" type="stmt"/>
+        <line num="62" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="75" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="user">
+      <metrics statements="41" coveredstatements="38" conditionals="16" coveredconditionals="10" methods="6" coveredmethods="4"/>
+      <file name="userSlice.tsx" path="C:\Users\matth\Documents\GitHub\hw5-haretian\webapp\src\features\user\userSlice.tsx">
+        <metrics statements="41" coveredstatements="38" conditionals="16" coveredconditionals="10" methods="6" coveredmethods="4"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="29" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="35" count="5" type="stmt"/>
+        <line num="36" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="37" count="1" type="stmt"/>
+        <line num="38" count="1" type="stmt"/>
+        <line num="42" count="4" type="stmt"/>
+        <line num="43" count="4" type="stmt"/>
+        <line num="44" count="4" type="stmt"/>
+        <line num="45" count="4" type="stmt"/>
+        <line num="46" count="4" type="stmt"/>
+        <line num="47" count="4" type="stmt"/>
+        <line num="48" count="4" type="stmt"/>
+        <line num="49" count="4" type="stmt"/>
+        <line num="53" count="0" type="stmt"/>
+        <line num="57" count="1" type="stmt"/>
+        <line num="58" count="1" type="stmt"/>
+        <line num="59" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="60" count="1" type="stmt"/>
+        <line num="62" count="0" type="stmt"/>
+        <line num="63" count="1" type="stmt"/>
+        <line num="64" count="1" type="stmt"/>
+        <line num="65" count="1" type="stmt"/>
+        <line num="66" count="1" type="stmt"/>
+        <line num="72" count="1" type="stmt"/>
+        <line num="73" count="1" type="stmt"/>
+        <line num="74" count="1" type="stmt"/>
+        <line num="82" count="0" type="stmt"/>
+        <line num="86" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="87" count="1" type="stmt"/>
+        <line num="88" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="89" count="1" type="stmt"/>
+        <line num="90" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="91" count="1" type="stmt"/>
+        <line num="92" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="93" count="1" type="stmt"/>
+        <line num="94" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="95" count="1" type="stmt"/>
+        <line num="109" count="2" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>

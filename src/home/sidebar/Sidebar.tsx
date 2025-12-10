@@ -1,22 +1,33 @@
 import { useEffect, useState, type SyntheticEvent } from 'react'
-import { useSelector } from 'react-redux'
-import type { UserState } from '../../main'
+import { useDispatch, useSelector } from 'react-redux'
+import { url, type UserState } from '../../main'
+import { updateStatus } from '../../features/user/userSlice'
 import userImg from '../../assets/img/user_placeholder.jpg'
 import './Sidebar.css'
 
-type FriendInfo = {
-    name: string,
-    id: number
+type FollowerInfo = {
+    username: string,
+    status: string,
+    display: string,
+    avatar: string,
 }
 
-function Sidebar() {
+// Only needs a prop to assign random images
+type imageProp = {
+    refetch: Function
+}
+
+function Sidebar(prop: imageProp) {
     const displayName = useSelector((state: UserState) => state.user.displayName)
-    const userid = useSelector((state: UserState) => state.user.userid)
-    const [status, setStatus] = useState("caw!")
+    const status = useSelector((state: UserState) => state.user.status)
+    const username = useSelector((state: UserState) => state.user.username)
+    const avatar = useSelector((state: UserState) => state.user.avatar)
+    const followers = useSelector((state: UserState) => state.content.followers)
     const [editStatus, setEditStatus] = useState(false)
-    const [friends, setFriends] = useState([])
     const [editFoll, setEditFoll] = useState(false)
+    const [buttonMessage, setButtonMessage] = useState("")
     const [MAXDISPLAY, setMAX] = useState(5)
+    const dispatch = useDispatch()
 
     // Toggles the status update bar
     const toggleStatus = () => {
@@ -27,8 +38,22 @@ function Sidebar() {
             setTimeout(() => { inputElem.focus() }, 200)
         } else {
             inputElem.classList.add('sidebar-hidden')
-            if (inputElem.value != "")
-                setStatus(inputElem.value);
+            if (inputElem.value != "") {
+                // Submit headline
+                let headline = inputElem.value;
+                (async () => {
+                    // Set headline
+                    let response = await fetch(url('/headline'), {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ headline: headline }),
+                        credentials: "include",
+                    })
+
+                    if (response.ok)
+                        dispatch(updateStatus({ status: headline }));
+                })();
+            }
             inputElem.value = "";
         }
     }
@@ -53,16 +78,60 @@ function Sidebar() {
         } else {
             inputElem.classList.add('sidebar-hidden')
             if (inputElem.value != "") {
-                let exists = false
-                friends.forEach((element: FriendInfo) => {
-                    if (element.name == inputElem.value)
-                        exists = true
-                });
-                if (!exists)
-                    setFriends([...friends, { name: inputElem.value } as never]);
+                if (inputElem.value == username)
+                    followMessage("can't follow")
+                else {
+                    let alreadyExists = false
+                    followers.forEach((element: FollowerInfo) => {
+                        if (element.username === inputElem.value)
+                            alreadyExists = true
+                    });
+                    if (!alreadyExists) {
+                        newFollower(inputElem.value)
+                    } else {
+                        followMessage("following")
+                    }
+                }
             }
             inputElem.value = "";
         }
+    }
+
+    const newFollower = async (username: string) => {
+        // Submit follower
+        let response = await fetch(url(`/following/${username}`), {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: "include",
+        })
+
+        if (response.status === 404) {
+            followMessage("doesn't exist");
+        }
+
+        if (response.ok) {
+            prop.refetch();
+        }
+    }
+
+    const deleteFollowerHandler = async (e: SyntheticEvent) => {
+        let follower = (e.target as HTMLElement).id.slice(0, -3);
+
+        // Delete follower
+        let response = await fetch(url(`/following/${follower}`), {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: "include",
+        })
+
+        if (response.ok) {
+            prop.refetch();
+        }
+    }
+
+    const followMessage = (message: string) => {
+        setButtonMessage(message)
+        setTimeout(() => { setButtonMessage("") }, 1500)
     }
 
     const blurInputFoll = (e: React.FocusEvent) => {
@@ -76,31 +145,19 @@ function Sidebar() {
         }
     }
 
-    const deleteFollower = (e: SyntheticEvent) => {
-        setFriends(friends.filter((elem: FriendInfo, _) => { return (e.target as HTMLElement).id != (elem.name + 'pfp') }))
-    }
-
     const ExtraFollowers = () => {
-        if (friends.length > MAXDISPLAY) {
-            return <div id="morefollowers" className='morefollowers'>{'+' + (friends.length - MAXDISPLAY) + ' more...'}</div>
+        if (followers.length > MAXDISPLAY) {
+            return <div id="morefollowers" className='morefollowers'>{'+' + (followers.length - MAXDISPLAY) + ' more...'}</div>
         }
         return
     }
 
-    // Get the current friend list
-    useEffect(() => {
-        async function getUserFriends() {
-            let req = await fetch('https://jsonplaceholder.typicode.com/users')
-            let response = await req.json()
-            setFriends(response.filter((element : FriendInfo) => {
-                if (userid == 0)
-                    return false
-                return (element.id == (userid + 1) % 10 || element.id == (userid + 2) % 10 || element.id == (userid + 3) % 10)
-            }))
-        }
-
-        getUserFriends()
-    }, []);
+    const FollowButton = () => {
+        if (buttonMessage == "")
+            return <button id="follow-button" className="button small-button" onClick={toggleFollower}>{editFoll ? "add" : "add follower"}</button>
+        else
+            return <button id="follow-button" className="button small-button" onClick={toggleFollower}>{buttonMessage}</button>
+    }
 
     // For updating MAXDISPLAY when status changes
     useEffect(() => {
@@ -120,24 +177,29 @@ function Sidebar() {
     return <div className="sidebar-container">
         <div className="sidebar">
             <div className="sidebar-profile">
-                <img className="profile-img" src={userImg}></img>
-                <div className="profile-username">{displayName}</div>
+                <img className="profile-img" src={avatar ? avatar : userImg}></img>
+                <div className="profile-username">{displayName ? displayName : username}</div>
                 <div className="profile-status-text fake-italic">{status}</div>
                 <input id="status" className='edit-status-popup sidebar-hidden' onBlur={blurInput} autoComplete="off"></input>
-                <button id="status-button" className='small-button' onClick={toggleStatus}>{editStatus ? "update" : "new status"}</button>
+                <button id="status-button" className='button small-button' onClick={toggleStatus}>{editStatus ? "update" : "new status"}</button>
             </div>
             <div className="splitter"></div>
             <div className="sidebar-follows">
                 <div className='followers'>
-                    {friends.map((elem: FriendInfo, i) => {
+                    {followers.map((elem: FollowerInfo, i) => {
                         if (i > MAXDISPLAY - 1) {
                             return;
                         }
                         return <div className="follows-user" key={i}>
-                            <img id={elem.name + "pfp"} className="follows-user-img" key={String(i) + "img"} src={userImg} onClick={deleteFollower} />
+                            <img id={elem.username + "pfp"} className="follows-user-img" key={String(i) + "img"} src={elem.avatar ? elem.avatar : userImg} onClick={deleteFollowerHandler} />
                             <div key={String(i) + "base"}>
-                                <div className="follows-user-name" key={String(i) + "username"}>{elem.name}</div>
-                                <div className="fake-italic" key={String(i) + "status"}>{"caw!"}</div>
+                                <div className="follows-user-name" key={String(i) + "username"}>
+                                    {elem.display ? elem.display : elem.username}
+                                    <span className="add-text">{
+                                    (elem.display === elem.username || elem.display === "") ? "" : ` (${elem.username})`
+                                    }</span>
+                                </div>
+                                <div className="fake-italic" key={String(i) + "status"}>{elem.status}</div>
                             </div>
                         </div>
                     })}
@@ -145,7 +207,7 @@ function Sidebar() {
                 <div className='follows-input-container'>
                     <ExtraFollowers />
                     <input id="follower" className='edit-status-popup sidebar-hidden' onBlur={blurInputFoll} autoComplete="off"></input>
-                    <button id="follow-button" className="small-button" onClick={toggleFollower}>{editFoll ? "add" : "add follower"}</button>
+                    <FollowButton />
                 </div>
             </div>
         </div>
