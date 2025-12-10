@@ -57,9 +57,9 @@ function RegistrationForm() {
         }
 
         // If validations pass, register user
-        const email = document.getElementById('email') as HTMLInputElement;
+/*         const email = document.getElementById('email') as HTMLInputElement;
         const phone = document.getElementById('phone') as HTMLInputElement;
-        const zip = document.getElementById('zip') as HTMLInputElement;
+        const zip = document.getElementById('zip') as HTMLInputElement; */
 
         (async () => {
             try {

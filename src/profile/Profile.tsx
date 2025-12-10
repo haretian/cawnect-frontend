@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateUserProfile, loginUser, logoutUser, updateAvatar } from '../features/user/userSlice';
+import { updateUserProfile, loginUser, logoutUser, /*updateAvatar*/ } from '../features/user/userSlice';
 import { type UserState, url } from '../main'
 import Navbar from '../navbar/Navbar';
 
@@ -75,7 +75,7 @@ function Profile() {
         processUser();
     }, [])
 
-    const getEntry = async (key: string, object: any) => {
+/*     const getEntry = async (key: string, object: any) => {
         try {
             const response = await fetch(url(`/${key}`), {
                 method: 'GET',
@@ -88,9 +88,9 @@ function Profile() {
             console.log(`cannot fetch ${key}`, err);
             object[key] = "failed to fetch";
         }
-    }
+    } */
 
-    const putEntry = async (key: string, object: any) => {
+/*     const putEntry = async (key: string, object: any) => {
         if (!object[key])
             return;
 
@@ -109,7 +109,7 @@ function Profile() {
             console.log(`cannot fetch PUT ${key}`, err);
             object[key] = "failed to fetch PUT";
         }
-    }
+    } */
 
     // Redirect back home if username becomes empty (on logout)
     useEffect(() => {
@@ -183,6 +183,7 @@ function Profile() {
         // Put all values
         await Promise.all(Object.keys(payload).map(async (key) => {
             //await putEntry(key, payload);
+            key;
         }))
 
         // Password case

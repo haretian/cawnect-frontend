@@ -1,7 +1,7 @@
 import { useEffect, useState, type SyntheticEvent } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { /*useDispatch,*/ useSelector } from 'react-redux'
 import { url, type UserState } from '../../main'
-import { updateStatus } from '../../features/user/userSlice'
+//import { updateStatus } from '../../features/user/userSlice'
 import userImg from '../../assets/img/user_placeholder.jpg'
 import './Sidebar.css'
 
@@ -27,7 +27,7 @@ function Sidebar(prop: imageProp) {
     const [editFoll, setEditFoll] = useState(false)
     const [buttonMessage, setButtonMessage] = useState("")
     const [MAXDISPLAY, setMAX] = useState(5)
-    const dispatch = useDispatch()
+    //const dispatch = useDispatch()
 
     // Toggles the status update bar
     const toggleStatus = () => {
@@ -98,6 +98,7 @@ function Sidebar(prop: imageProp) {
     }
 
     const newFollower = async (username: string) => {
+        console.log(`adding follower ${username}`)
         // Submit follower
 /*         let response = await fetch(url(`/following/${username}`), {
             method: 'PUT',
