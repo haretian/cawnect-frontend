@@ -35,7 +35,7 @@ function Profile() {
     useEffect(() => {
         async function processUser() {
             // Try and get display name
-            let response = await fetch(url('/display'), {
+            let response = await fetch(url('/users/1'), {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: "include",
@@ -55,19 +55,19 @@ function Profile() {
 
             // Process fetched display name
             let payload = {
-                display: "",
-                email: "",
-                phone: "",
-                zipcode: "",
+                display: res.name,
+                email: res.email,
+                phone: res.phone,
+                zipcode: res.address.zipcode,
                 avatar: "",
             }
 
-            payload.display = res.display;
+           // payload.display = res.display;
 
             // Get all values
-            await Promise.all(Object.keys(payload).map(async (key) => {
+/*             await Promise.all(Object.keys(payload).map(async (key) => {
                 await getEntry(key, payload);
-            }))
+            })) */
 
             dispatch(updateUserProfile(payload))
         }
@@ -182,20 +182,20 @@ function Profile() {
 
         // Put all values
         await Promise.all(Object.keys(payload).map(async (key) => {
-            await putEntry(key, payload);
+            //await putEntry(key, payload);
         }))
 
         // Password case
         if (password) {
             try {
-                await fetch(url(`/password`), {
+/*                 await fetch(url(`/password`), {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     credentials: "include",
                     body: JSON.stringify({
                         password: password,
                     }),
-                })
+                }) */
             } catch (err) {
                 console.log(`cannot fetch PUT password`, err);
             }
@@ -279,14 +279,14 @@ function Profile() {
 
             (async () => {
                 try {
-                    const response = await fetch(url("/avatar"), {
+/*                     const response = await fetch(url("/avatar"), {
                         method: 'PUT',
                         credentials: "include",
                         body: fd,
                     })
                     const res = await response.json();
 
-                    dispatch(updateAvatar({ avatar: res.avatar }));
+                    dispatch(updateAvatar({ avatar: res.avatar })); */
                 } catch (err) {
                     console.log(`cannot fetch PUT avatar`, err);
                 }

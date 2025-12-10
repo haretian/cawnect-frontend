@@ -19,7 +19,7 @@ function Auth() {
     useEffect(() => {
         async function processUser() {
             // Try and get headline
-            let response = await fetch(url('/headline'), {
+            let response = await fetch(url('/users/1'), {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: "include",

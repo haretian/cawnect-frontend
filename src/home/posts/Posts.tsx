@@ -5,6 +5,16 @@ import { useSelector } from 'react-redux'
 import type { UserState } from '../../main'
 import { useRef, useState } from 'react'
 
+import img1 from "../../assets/img/crow-placeholder-1.jpg"
+import img2 from "../../assets/img/crow-placeholder-2.jpg"
+import img3 from "../../assets/img/crow-placeholder-3.jpg"
+import img4 from "../../assets/img/crow-placeholder-4.jpg"
+
+const images = [img1, img2, img3, img4, ""]
+function generateImage() {
+    return images[Math.floor(Math.random() * images.length)]
+}
+
 type PostInfo = {
     addPostFunc: Function,
     openEditFunc: Function,
@@ -30,7 +40,7 @@ function Posts(prop: Posts) {
                 id={postobj.id}
                 author={postobj.author}
                 text={postobj.text}
-                image={postobj.image}
+                image={generateImage()}
                 date={postobj.date}
                 comments={postobj.comments}
                 addPostFunc={prop.addPostFunc}

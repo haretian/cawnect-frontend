@@ -102,7 +102,8 @@ function Home() {
     }
 
     const addPost = async (text: string, articleId: string, commentId?: number) => {
-        try {
+        console.log("added post ", text, articleId, commentId)
+/*         try {
             let response = await fetch(url(`/articles/${articleId}`), {
                 method: "PUT",
                 headers: { 'Content-Type': 'application/json' },
@@ -121,7 +122,7 @@ function Home() {
 
         } catch (err) {
             console.log(`cannot update article`, err);
-        }
+        } */
     }
 
     const addNewPost = async (text: string, file?: File) => {
@@ -131,7 +132,7 @@ function Home() {
             fd.append("image", file);
 
         try {
-            const response = await fetch(url("/article"), {
+/*             const response = await fetch(url("/article"), {
                 method: 'POST',
                 credentials: "include",
                 body: fd,
@@ -140,7 +141,7 @@ function Home() {
             const res = await response.json();
             console.log(res);
 
-            dispatch(addOrReplacePost({ post: res.articles[0] }));
+            dispatch(addOrReplacePost({ post: res.articles[0] })); */
         } catch (err) {
             console.log(`cannot fetch POST article`, err);
         }
@@ -148,13 +149,13 @@ function Home() {
 
     const logout = () => {
         (async () => {
-            await fetch(url('/logout'), {
+/*             await fetch(url('/logout'), {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: "include",
             }).catch((err) => {
                 console.log("cannot logout", err.toString());
-            })
+            }) */
 
             dispatch(logoutUser());
         })();
@@ -162,7 +163,7 @@ function Home() {
 
     const fetchFollowers = async () => {
         // Followers
-        let response = await fetch(url('/following'), {
+        let response = await fetch(url('/users'), {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
             credentials: "include",
@@ -171,10 +172,10 @@ function Home() {
         if (response.ok) {
             let res = await response.json();
             let following: FollowerInfo[] = [];
-            await Promise.all(res.following.map(
-                async (element: string) => {
+            await Promise.all(res.map(
+                async (element: any) => {
                     // Get headline for each follower
-                    const followHeadline = await fetch(url(`/headline/${element}`), {
+/*                     const followHeadline = await fetch(url(`/headline/${element}`), {
                         method: 'GET',
                         headers: { 'Content-Type': 'application/json' },
                         credentials: "include",
@@ -200,16 +201,16 @@ function Home() {
                     })
 
                     if (!followAvatar.ok)
-                        return
+                        return */
 
-                    const headlineRes = await followHeadline.json();
+/*                     const headlineRes = await followHeadline.json();
                     const dispRes = await followDisp.json();
-                    const avatarRes = await followAvatar.json();
+                    const avatarRes = await followAvatar.json(); */
                     const follower = {
-                        username: headlineRes.username,
-                        status: headlineRes.headline,
-                        display: dispRes.display,
-                        avatar: avatarRes.avatar,
+                        username: element.username,
+                        status: element.company.catchPhrase,
+                        display: element.name,
+                        avatar: "",
                     }
 
                     following = [...following, follower]
@@ -226,7 +227,7 @@ function Home() {
     const fetchPosts = async (set?: boolean) => {
         let nextPage = set ? 1 : pagesLoaded + 1;
         try {
-            let response = await fetch(url('/articles'), {
+            let response = await fetch(url('/posts'), {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json', 'Request-Page': nextPage.toString() },
                 credentials: "include",
@@ -238,13 +239,25 @@ function Home() {
             }
 
             let res = await response.json();
-            if (res.articles.length < 10)
+            if (res.length < 10)
                 setEnd(true);
 
+            let articles: any[] = []
+            res.forEach((elem: any) => {
+                let newArticle = {
+                    id: elem.id,
+                    author: `user${elem.userId}`,
+                    text: elem.body,
+                    date: Date.now(),
+                    comments: [],
+                }
+                articles.push(newArticle)
+            });
+
             if (set)
-                dispatch(setPosts({ posts: res.articles }));
+                dispatch(setPosts({ posts: articles }));
             else
-                dispatch(addPosts({ posts: res.articles }));
+                dispatch(addPosts({ posts: articles }));
         } catch (err) {
             console.log(err);
         }
@@ -266,7 +279,7 @@ function Home() {
     useEffect(() => {
         async function processUser() {
             // Try and get headline
-            let response = await fetch(url('/headline'), {
+            let response = await fetch(url('/users/1'), {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: "include",
@@ -286,30 +299,31 @@ function Home() {
             dispatch(updateStatus({ status: res.headline }));
 
             // Get necessary fields for home
-
+/* 
             // Display name
-            response = await fetch(url('/display'), {
+            response = await fetch(url('/users/1'), {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: "include",
-            })
+            }) */
 
-            if (response.ok) {
-                res = await response.json();
-                dispatch(updateDisplay({ display: res.display }));
-            }
+/*             if (response.ok) {
+                res = await response.json(); */
+                dispatch(updateDisplay({ display: res.name }));
+/*             } */
 
             // Avatar
-            response = await fetch(url('/avatar'), {
+/*             response = await fetch(url('/avatar'), {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: "include",
-            })
+            }) */
 
-            if (response.ok) {
+/*             if (response.ok) {
                 res = await response.json();
                 dispatch(updateAvatar({ avatar: res.avatar }));
-            }
+            } */
+           dispatch(updateAvatar({ avatar: "" }));
 
             await fetchFollowers();
 

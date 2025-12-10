@@ -13,7 +13,7 @@ import contentReducer from './features/content/contentSlice.tsx'
 const store = configureStore({ reducer: { user: userReducer, content: contentReducer } });
 export type UserState = ReturnType<typeof store.getState>;
 
-export const url = (endpoint: string) => `https://cawnectserver-9466fa42c2dc.herokuapp.com${endpoint}`;
+export const url = (endpoint: string) => `https://jsonplaceholder.typicode.com/${endpoint}`;
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

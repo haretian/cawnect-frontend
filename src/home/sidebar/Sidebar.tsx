@@ -40,8 +40,8 @@ function Sidebar(prop: imageProp) {
             inputElem.classList.add('sidebar-hidden')
             if (inputElem.value != "") {
                 // Submit headline
-                let headline = inputElem.value;
-                (async () => {
+                //let headline = inputElem.value;
+/*                 (async () => {
                     // Set headline
                     let response = await fetch(url('/headline'), {
                         method: 'PUT',
@@ -52,7 +52,7 @@ function Sidebar(prop: imageProp) {
 
                     if (response.ok)
                         dispatch(updateStatus({ status: headline }));
-                })();
+                })(); */
             }
             inputElem.value = "";
         }
@@ -99,7 +99,7 @@ function Sidebar(prop: imageProp) {
 
     const newFollower = async (username: string) => {
         // Submit follower
-        let response = await fetch(url(`/following/${username}`), {
+/*         let response = await fetch(url(`/following/${username}`), {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             credentials: "include",
@@ -111,7 +111,7 @@ function Sidebar(prop: imageProp) {
 
         if (response.ok) {
             prop.refetch();
-        }
+        } */
     }
 
     const deleteFollowerHandler = async (e: SyntheticEvent) => {

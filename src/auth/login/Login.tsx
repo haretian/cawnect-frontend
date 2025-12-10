@@ -16,7 +16,6 @@ function Login() {
     // Get user, then try and login
     const processLogin = () => {
         async function processUser() {
-            let account = acc.current?.value
             let password = pass.current?.value
 
             if (!acc || !password) {
@@ -24,11 +23,10 @@ function Login() {
             }
 
             try {
-                let response = await fetch(url('/login'), {
-                    method: 'POST',
+                let response = await fetch(url('/users/1'), {
+                    method: 'GET',
                     headers: { 'Content-Type': 'application/json' },
-                    credentials: "include",
-                    body: JSON.stringify({ username: account, password: password })
+                    credentials: "include"
                 })
 
                 // Check if response is ok

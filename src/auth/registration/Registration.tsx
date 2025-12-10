@@ -63,17 +63,9 @@ function RegistrationForm() {
 
         (async () => {
             try {
-                let response = await fetch(url('/register'), {
-                    method: 'POST',
+                let response = await fetch(url('/users/1'), {
+                    method: 'GET',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        username: acc.value,
-                        email: email.value,
-                        dob: dob.value,
-                        phone: phone.value,
-                        zipcode: zip.value,
-                        password: pass.value
-                    })
                 });
 
                 // Check if response is ok
@@ -86,10 +78,9 @@ function RegistrationForm() {
                 }
 
                 // Login user
-                response = await fetch(url('/login'), {
-                    method: 'POST',
+                response = await fetch(url('/users/1'), {
+                    method: 'GET',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username: acc.value, password: pass.value })
                 })
 
                 // Check if response is ok
@@ -99,29 +90,6 @@ function RegistrationForm() {
                 }
 
                 let res = await response.json();
-
-                // User logged in, set values if necessary
-                const disp = document.getElementById('disp') as HTMLInputElement;
-                if (disp.value) {
-                    await fetch(url('/display'), {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ display: disp.value }),
-                        credentials: "include",
-                    }).catch((err) => {
-                        console.log("failed to set display name", err.toString());
-                    })
-                }
-
-                // Set headline
-                await fetch(url('/headline'), {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ headline: "caw!" }),
-                    credentials: "include",
-                }).catch((err) => {
-                    console.log("failed to set headline", err.toString());
-                })
 
                 // Change website state
                 dispatch(loginUser({
